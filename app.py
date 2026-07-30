@@ -71,20 +71,26 @@ for stock in sector_df["SYMBOL"]:
             previous_week_high = weekly["High"].iloc[-2]
 
             # Current week candle
-            current_week_high = weekly["High"].iloc[-1]
-            ltp = weekly["Close"].iloc[-1]
+            daily = yf.Ticker(stock + ".NS").history(
+            period="10d",
+            interval="1d",
+            auto_adjust=True
+            )
 
-            if current_week_high > previous_week_high:
+            today_high = daily["High"].iloc[-1]
+            yesterday_high = daily["High"].iloc[-2]
+            ltp = daily["Close"].iloc[-1]
+
+            if yesterday_high <= previous_week_high and today_high > previous_week_high:
 
                 breakout_pct = round(
-                    ((current_week_high - previous_week_high) / previous_week_high) * 100,
-                    2,
+                    ((today_high - previous_week_high) / previous_week_high) * 100
                 )
 
                 weekly_breakout.append({
                     "Stock": stock,
                     "Prev Week High": round(previous_week_high, 2),
-                    "Current Week High": round(current_week_high, 2),
+                    "Today High": round(today_high, 2),
                     "LTP": round(ltp, 2),
                     "Breakout %": f"{breakout_pct}%"
                 })
