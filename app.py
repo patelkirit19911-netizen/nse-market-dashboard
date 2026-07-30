@@ -1,7 +1,7 @@
 import streamlit as st
 import pandas as pd
 import yfinance as yf
-
+import plotly.graph_objects as go
 st.set_page_config(page_title="NSE Market Dashboard", layout="wide")
 
 st.title("📊 NSE MARKET DASHBOARD")
@@ -10,7 +10,7 @@ st.title("📊 NSE MARKET DASHBOARD")
 sector_df = pd.read_csv("sector_mapping.csv")
 
 strength = {}
-
+sector_change = {}
 for sector in sector_df["SECTOR"].unique():
     stocks = sector_df[sector_df["SECTOR"] == sector]["SYMBOL"]
 
