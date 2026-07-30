@@ -19,13 +19,8 @@ for sector in sector_df["SECTOR"].unique():
 
     for stock in stocks:
         try:
-            data = yf.download(
-                stock + ".NS",
-                period="5d",
-                interval="1d",
-                progress=False,
-                auto_adjust=True,
-            )
+            ticker = yf.Ticker(stock + ".NS")
+            data = ticker.history(period="5d", auto_adjust=True)
 
             if len(data) >= 2:
                 last = data["Close"].iloc[-1]
