@@ -12,30 +12,31 @@ sector_df = pd.read_csv("sector_mapping.csv")
 strength = {}
 sector_change = {}
 for sector in sector_df["SECTOR"].unique():
+
     stocks = sector_df[sector_df["SECTOR"] == sector]["SYMBOL"]
 
-    green = 0
-    total = 0
+    changes = []
 
     for stock in stocks:
         try:
-            ticker = yf.Ticker(stock + ".NS")
-            data = ticker.history(period="5d", auto_adjust=True)
+            data = yf.Ticker(stock + ".NS").history(
+                period="2d",
+                interval="1d",
+                auto_adjust=True
+            )
 
             if len(data) >= 2:
-                last = data["Close"].iloc[-1]
-                prev = data["Close"].iloc[-2]
+                prev_close = data["Close"].iloc[-2]
+                last_close = data["Close"].iloc[-1]
 
-                if last > prev:
-                    green += 1
-
-                total += 1
+                change = ((last_close - prev_close) / prev_close) * 100
+                changes.append(change)
 
         except:
             pass
 
-    if total > 0:
-        strength[sector] = round(green / total * 100)
+    if changes:
+        sector_change[sector] = round(sum(changes) / len(changes), 2)
 
 col1, col2 = st.columns(2)
 
