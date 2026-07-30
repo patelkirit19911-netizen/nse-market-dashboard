@@ -155,7 +155,7 @@ else:
     st.info("No Daily Breakout Today")
 with col4:
     st.subheader("🔥 Last 5 Days High Volume")
-    if high_volume:
+if high_volume:
     st.dataframe(
         pd.DataFrame(high_volume),
         use_container_width=True,
