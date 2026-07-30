@@ -44,7 +44,7 @@ with col1:
 
     for sector, value in sorted(strength.items(), key=lambda x: x[1], reverse=True):
 
-        if value >= 70:
+    if value >= 70:
         st.success(f"🟢 {sector} : {value}%")
 elif value >= 40:
         st.warning(f"🟡 {sector} : {value}%")
