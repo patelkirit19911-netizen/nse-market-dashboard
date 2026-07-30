@@ -54,7 +54,52 @@ with col1:
 
 with col2:
     st.subheader("📈 Weekly Breakout")
-    st.info("Coming Soon")
+    weekly_breakout = []
+
+for stock in sector_df["SYMBOL"]:
+    try:
+        # Weekly (1W) data
+        weekly = yf.Ticker(stock + ".NS").history(
+            period="3mo",
+            interval="1wk",
+            auto_adjust=True
+        )
+
+        if len(weekly) >= 2:
+
+            # Previous completed weekly candle
+            previous_week_high = weekly["High"].iloc[-2]
+
+            # Current week candle
+            current_week_high = weekly["High"].iloc[-1]
+            ltp = weekly["Close"].iloc[-1]
+
+            if current_week_high > previous_week_high:
+
+                breakout_pct = round(
+                    ((current_week_high - previous_week_high) / previous_week_high) * 100,
+                    2,
+                )
+
+                weekly_breakout.append({
+                    "Stock": stock,
+                    "Prev Week High": round(previous_week_high, 2),
+                    "Current Week High": round(current_week_high, 2),
+                    "LTP": round(ltp, 2),
+                    "Breakout %": f"{breakout_pct}%"
+                })
+
+    except:
+        pass
+
+if weekly_breakout:
+    st.dataframe(
+        pd.DataFrame(weekly_breakout),
+        use_container_width=True,
+        hide_index=True
+    )
+else:
+    st.info("No Weekly Breakout Today")
 
 col3, col4 = st.columns(2)
 
