@@ -39,18 +39,38 @@ for sector in sector_df["SECTOR"].unique():
         sector_change[sector] = round(sum(changes) / len(changes), 2)
 
 col1, col2 = st.columns(2)
-
 with col1:
-    st.subheader("🌐 All Sector Strength")
-for sector, value in sorted(strength.items(), key=lambda x: x[1], reverse=True):
-    if value >= 70:
-        st.success(f"🟢 {sector} : {value}%")
-    elif value >= 40:
-        st.warning(f"🟡 {sector} : {value}%")
-    else:
-        st.error(f"🔴 {sector} : {value}%")
+    st.subheader("📊 Sector Performance (1D)")
 
-    st.progress(value / 100)
+    chart_df = pd.DataFrame(
+        list(sector_change.items()),
+        columns=["Sector", "Change"]
+    )
+
+    chart_df = chart_df.sort_values("Change", ascending=True)
+
+    colors = ["green" if x >= 0 else "red" for x in chart_df["Change"]]
+
+    fig = go.Figure()
+
+    fig.add_trace(go.Bar(
+        x=chart_df["Change"],
+        y=chart_df["Sector"],
+        orientation="h",
+        marker_color=colors,
+        text=[f"{x:.2f}%" for x in chart_df["Change"]],
+        textposition="outside"
+    ))
+
+    fig.update_layout(
+        height=700,
+        showlegend=False,
+        plot_bgcolor="white",
+        paper_bgcolor="white"
+    )
+
+    st.plotly_chart(fig, use_container_width=True)
+
     
 with col2:
     st.subheader("📈 Weekly Breakout")
