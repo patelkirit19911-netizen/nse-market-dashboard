@@ -67,4 +67,23 @@ with col4:
     st.info("Coming Soon")
 
 st.subheader("⭐ Strong Buy")
-st.info("Coming Soon")
+stocks = []
+
+for stock in sector_df["SYMBOL"]:
+    try:
+        data = yf.Ticker(stock + ".NS").history(period="10d", auto_adjust=True)
+
+        if len(data) >= 6:
+            prev_high = data["High"].iloc[-6:-1].max()
+            last_close = data["Close"].iloc[-1]
+
+            if last_close > prev_high:
+                stocks.append(stock)
+
+    except:
+        pass
+
+if stocks:
+    st.success("\n".join(stocks))
+else:
+    st.info("No Weekly Breakout Today")
