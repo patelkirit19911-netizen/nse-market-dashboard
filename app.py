@@ -45,13 +45,13 @@ with col1:
     for sector, value in sorted(strength.items(), key=lambda x: x[1], reverse=True):
 
         if value >= 70:
-    st.success(f"🟢 {sector} : {value}%")
+        st.success(f"🟢 {sector} : {value}%")
 elif value >= 40:
-    st.warning(f"🟡 {sector} : {value}%")
+        st.warning(f"🟡 {sector} : {value}%")
 else:
-    st.error(f"🔴 {sector} : {value}%")
+        st.error(f"🔴 {sector} : {value}%")
 
-st.progress(value / 100)
+    st.progress(value / 100)
 with col2:
     st.subheader("📈 Weekly Breakout")
     weekly_breakout = []
