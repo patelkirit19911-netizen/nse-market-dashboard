@@ -111,8 +111,48 @@ col3, col4 = st.columns(2)
 
 with col3:
     st.subheader("📅 Daily Breakout")
-    st.info("Coming Soon")
+    daily_breakout = []
 
+for stock in sector_df["SYMBOL"]:
+    try:
+        daily = yf.Ticker(stock + ".NS").history(
+            period="5d",
+            interval="1d",
+            auto_adjust=True
+        )
+
+        if len(daily) >= 2:
+
+            previous_day_high = daily["High"].iloc[-2]
+            today_high = daily["High"].iloc[-1]
+            ltp = daily["Close"].iloc[-1]
+
+            if today_high > previous_day_high and ltp > previous_day_high:
+
+                breakout_pct = round(
+                    ((today_high - previous_day_high) / previous_day_high) * 100,
+                    2
+                )
+
+                daily_breakout.append({
+                    "Stock": stock,
+                    "Prev Day High": round(previous_day_high, 2),
+                    "Today High": round(today_high, 2),
+                    "LTP": round(ltp, 2),
+                    "Breakout %": f"{breakout_pct}%"
+                })
+
+    except:
+        pass
+
+if daily_breakout:
+    st.dataframe(
+        pd.DataFrame(daily_breakout),
+        use_container_width=True,
+        hide_index=True
+    )
+else:
+    st.info("No Daily Breakout Today")
 with col4:
     st.subheader("🔥 Last 5 Days High Volume")
     st.info("Coming Soon")
