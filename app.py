@@ -38,19 +38,22 @@ for sector in sector_df["SECTOR"].unique():
     if changes:
         sector_change[sector] = round(sum(changes) / len(changes), 2)
 
-col1, col2, col3 = st.columns([1, 2, 1])
-with col1:
+# ===========================
+# DASHBOARD V2 - PART 1
+# ===========================
+
+left, right = st.columns([2, 1])
+
+chart_df = pd.DataFrame(
+    list(sector_change.items()),
+    columns=["Sector", "Change"]
+).sort_values("Change", ascending=True)
+
+colors = ["green" if x >= 0 else "red" for x in chart_df["Change"]]
+
+with left:
+
     st.subheader("📊 Sector Performance (1D)")
-    
-
-    chart_df = pd.DataFrame(
-        list(sector_change.items()),
-        columns=["Sector", "Change"]
-    )
-    chart_df = chart_df.sort_values("Change", ascending=True)
-    
-
-    colors = ["green" if x >= 0 else "red" for x in chart_df["Change"]]
 
     fig = go.Figure()
 
@@ -60,83 +63,31 @@ with col1:
         orientation="h",
         marker_color=colors,
         text=[f"{x:.2f}%" for x in chart_df["Change"]],
-        textposition="outside"
+        textposition="outside",
     ))
 
     fig.update_layout(
         height=700,
         showlegend=False,
         plot_bgcolor="white",
-        paper_bgcolor="white"
+        paper_bgcolor="white",
+        margin=dict(l=5, r=5, t=5, b=5)
     )
 
     st.plotly_chart(fig, use_container_width=True)
-    with col1:
-        st.subheader("📂 Select Sector")
 
-        for sector in chart_df["Sector"]:
-            c1, c2 = st.columns([5, 1])
-            with c1:
-                st.write(sector)
-            with c2:
-                if st.button("📂", key=sector):
-                    st.session_state["selected_sector"] = sector
-    
-with col2:
-    st.subheader("📈 Weekly Breakout")
-    weekly_breakout = []
+with right:
 
-for stock in sector_df["SYMBOL"]:
-    try:
-        # Weekly (1W) data
-        weekly = yf.Ticker(stock + ".NS").history(
-            period="3mo",
-            interval="1wk",
-            auto_adjust=True
-        )
+    st.subheader("📂 Select Sector")
 
-        if len(weekly) >= 2:
-
-            # Previous completed weekly candle
-            previous_week_high = weekly["High"].iloc[-2]
-
-            # Current week candle
-            daily = yf.Ticker(stock + ".NS").history(
-            period="10d",
-            interval="1d",
-            auto_adjust=True
-            )
-
-            today_high = daily["High"].iloc[-1]
-            yesterday_high = daily["High"].iloc[-2]
-            ltp = daily["Close"].iloc[-1]
-
-            if yesterday_high <= previous_week_high and today_high > previous_week_high:
-
-                breakout_pct = round(
-                    ((today_high - previous_week_high) / previous_week_high) * 100
-                )
-
-                weekly_breakout.append({
-                    "Stock": stock,
-                    "Prev Week High": round(previous_week_high, 2),
-                    "Today High": round(today_high, 2),
-                    "LTP": round(ltp, 2),
-                    "Breakout %": f"{breakout_pct}%"
-                })
-
-    except:
-        pass
-
-if weekly_breakout:
-    st.dataframe(
-        pd.DataFrame(weekly_breakout),
-        use_container_width=True,
-        hide_index=True
+    selected_sector = st.selectbox(
+        "Sector",
+        chart_df["Sector"],
+        label_visibility="collapsed"
     )
-else:
-    st.info("No Weekly Breakout Today")
 
+    st.button("📂 Open", use_container_width=True)
+    
 col3, col4 = st.columns(2)
 
 with col3:
@@ -205,4 +156,58 @@ if high_volume:
     )
 else:
     st.info("No High Volume Stocks Today")
+    st.subheader("📈 Weekly Breakout")
+    weekly_breakout = []
+
+for stock in sector_df["SYMBOL"]:
+    try:
+        # Weekly (1W) data
+        weekly = yf.Ticker(stock + ".NS").history(
+            period="3mo",
+            interval="1wk",
+            auto_adjust=True
+        )
+
+        if len(weekly) >= 2:
+
+            # Previous completed weekly candle
+            previous_week_high = weekly["High"].iloc[-2]
+
+            # Current week candle
+            daily = yf.Ticker(stock + ".NS").history(
+            period="10d",
+            interval="1d",
+            auto_adjust=True
+            )
+
+            today_high = daily["High"].iloc[-1]
+            yesterday_high = daily["High"].iloc[-2]
+            ltp = daily["Close"].iloc[-1]
+
+            if yesterday_high <= previous_week_high and today_high > previous_week_high:
+
+                breakout_pct = round(
+                    ((today_high - previous_week_high) / previous_week_high) * 100
+                )
+
+                weekly_breakout.append({
+                    "Stock": stock,
+                    "Prev Week High": round(previous_week_high, 2),
+                    "Today High": round(today_high, 2),
+                    "LTP": round(ltp, 2),
+                    "Breakout %": f"{breakout_pct}%"
+                })
+
+    except:
+        pass
+
+if weekly_breakout:
+    st.dataframe(
+        pd.DataFrame(weekly_breakout),
+        use_container_width=True,
+        hide_index=True
+    )
+else:
+    st.info("No Weekly Breakout Today")
+    
 
