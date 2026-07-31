@@ -71,18 +71,19 @@ with col1:
     )
 
     st.plotly_chart(fig, use_container_width=True)
-    st.markdown("### 📂 Select Sector")
+    with col3:
+    st.subheader("📂 Select Sector")
 
-for sector in chart_df["Sector"]:
+    for sector in chart_df["Sector"]:
 
-    c1, c2 = st.columns([3, 1])
+        c1, c2 = st.columns([2.5, 1])
 
-    with c1:
-        st.write(sector)
+        with c1:
+            st.markdown(f"**{sector}**")
 
-    with c2:
-        if st.button("Open", key=sector):
-            st.session_state["selected_sector"] = sector
+        with c2:
+            if st.button("📂 Open", key=sector, use_container_width=True)
+                st.session_state["selected_sector"] = sector
 
     
 with col2:
