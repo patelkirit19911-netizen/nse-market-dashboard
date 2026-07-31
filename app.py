@@ -47,7 +47,7 @@ with col1:
         list(sector_change.items()),
         columns=["Sector", "Change"]
     )
-    chart_df = chart_df.sort_values("Change", ascending=False)
+    chart_df = chart_df.sort_values("Change", ascending=True)
     
 
     colors = ["green" if x >= 0 else "red" for x in chart_df["Change"]]
