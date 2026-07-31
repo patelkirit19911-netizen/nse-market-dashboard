@@ -80,7 +80,7 @@ with col1:
                 st.write(sector)
             with c2:
                 if st.button("📂", key=sector):
-            st.session_state["selected_sector"] = sector
+                    st.session_state["selected_sector"] = sector
     
 with col2:
     st.subheader("📈 Weekly Breakout")
