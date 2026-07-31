@@ -71,7 +71,7 @@ with col1:
     )
 
     st.plotly_chart(fig, use_container_width=True)
-    with col3:
+    with col1:
         st.subheader("📂 Select Sector")
 
         for sector in chart_df["Sector"]:
