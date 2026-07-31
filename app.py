@@ -41,11 +41,7 @@ for sector in sector_df["SECTOR"].unique():
 col1, col2, col3 = st.columns([1, 2, 1])
 with col1:
     st.subheader("📊 Sector Performance (1D)")
-    selected_sector = st.radio(
-    "Select Sector",
-    chart_df["Sector"].tolist(),
-    label_visibility="collapsed"
-    )
+    
 
     chart_df = pd.DataFrame(
         list(sector_change.items()),
