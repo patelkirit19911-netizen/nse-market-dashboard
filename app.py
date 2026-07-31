@@ -79,11 +79,11 @@ with col1:
             c1, c2 = st.columns([2.5, 1])
 
             with c1:
-            st.markdown(f"**{sector}**")
+                st.markdown(f"**{sector}**")
 
             with c2:
                 if st.button("📂 Open", key=sector, use_container_width=True)
-        st.session_state["selected_sector"] = sector
+            st.session_state["selected_sector"] = sector
 
     
 with col2:
