@@ -82,8 +82,8 @@ with col1:
                 st.markdown(f"**{sector}**")
 
             with c2:
-                if st.button("📂 Open", key=sector, use_container_width=True)
-            st.session_state["selected_sector"] = sector
+                if st.button("📂 Open", key=sector, use_container_width=True):
+                st.session_state["selected_sector"] = sector
 
     
 with col2:
