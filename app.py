@@ -148,16 +148,16 @@ else:
     st.info("No Daily Breakout Today")
 with col4:
     st.subheader("🔥 Last 5 Days High Volume")
-if high_volume:
-    st.dataframe(
+    if high_volume:
+        st.dataframe(
         pd.DataFrame(high_volume),
         use_container_width=True,
         hide_index=True
-    )
-else:
-    st.info("No High Volume Stocks Today")
-    st.subheader("📈 Weekly Breakout")
-    weekly_breakout = []
+        )
+    else:
+        st.info("No High Volume Stocks Today")
+st.subheader("📈 Weekly Breakout")
+weekly_breakout = []
 
 for stock in sector_df["SYMBOL"]:
     try:
