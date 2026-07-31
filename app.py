@@ -52,7 +52,7 @@ with col1:
         columns=["Sector", "Change"]
     )
     chart_df = chart_df.sort_values("Change", ascending=False)
-    chart_df = chart_df.sort_values("Change", ascending=True)
+    
 
     colors = ["green" if x >= 0 else "red" for x in chart_df["Change"]]
 
@@ -75,6 +75,18 @@ with col1:
     )
 
     st.plotly_chart(fig, use_container_width=True)
+    st.markdown("### 📂 Select Sector")
+
+for sector in chart_df["Sector"]:
+
+    c1, c2 = st.columns([3, 1])
+
+    with c1:
+        st.write(sector)
+
+    with c2:
+        if st.button("Open", key=sector):
+            st.session_state["selected_sector"] = sector
 
     
 with col2:
