@@ -170,22 +170,19 @@ for stock in sector_df["SYMBOL"]:
 
 with col3:
     st.subheader("📅 Daily Breakout")
+    
     if daily_breakout:
-    df = pd.DataFrame(daily_breakout)
-    st.dataframe(
-        df.style.format({
-            "Prev Day High": "{:.2f}",
-            "Today High": "{:.2f}",
-            "LTP": "{:.2f}"
-        }).map(
-            lambda v: "color: green; font-weight: bold;",
-            subset=["Breakout %"]
-        ),
-        use_container_width=True,
-        hide_index=True
-    )
-else:
-    st.info("No daily breakout today")
+        df = pd.DataFrame(daily_breakout)
+        st.dataframe(
+            df.style.format({"Prev Day High": "{:.2f}","Today High": "{:.2f}","LTP": "{:.2f}"}).map(
+                lambda v: "color: green; font-weight: bold;",
+                subset=["Breakout %"]
+            ),
+            use_container_width=True,
+            hide_index=True
+        )
+    else:
+        st.info("No daily breakout today")
 with col4:
     st.subheader("📉 Daily Breakdown")
 
