@@ -181,7 +181,19 @@ with col3:
         st.info("No daily breckout today")
 with col4:
     st.subheader("📉 Daily Breakdown")
-    st.info("No daily breakdown today")       
+
+    if daily_breakdown:
+        df = pd.DataFrame(daily_breakdown)
+        st.dataframe(
+            df.style.map(
+                lambda v: "color: red; font-weight: bold;",
+                subset=["Breakdown %"]
+            ),
+            use_container_width=True,
+            hide_index=True
+        )
+    else:
+        st.info("No Daily Breakdown Today")
 st.subheader("🔥 Last 5 Days High Volume")
 if high_volume:
     df = pd.DataFrame(high_volume)
