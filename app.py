@@ -251,7 +251,7 @@ for stock in sector_df["SYMBOL"]:
 if weekly_breakout:
     df = pd.DataFrame(weekly_breakout)
     st.dataframe(
-            df.style.map(
+            df.style.format({"Prev Week High": "{:.2f}","Today High": "{:.2f}","LTP": "{:.2f}"}).map(
                 lambda v: "color: green; font-weight: bold;",
                 subset=["Breakout %"]),use_container_width=True,hide_index=True)
 
