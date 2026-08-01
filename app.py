@@ -47,7 +47,12 @@ import streamlit.components.v1 as components
 st.subheader("📊 Sector Performance (1D)")
 
 selected_sector = None
+chart_df = pd.DataFrame(
+    list(sector_change.items()),
+    columns=["Sector", "Change"]
+)
 
+chart_df = chart_df.sort_values("Change", ascending=False)
 html = """
 <style>
 .row{
@@ -78,7 +83,7 @@ font-weight:bold;
 </style>
 """
 
-for _, row in chart_df.sort_values("Change", ascending=False).iterrows():
+for _, row in chart_df.iterrows():
 
     color = "#0a9d36" if row["Change"] >= 0 else "#d62828"
 
