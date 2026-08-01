@@ -104,17 +104,15 @@ for stock in sector_df["SYMBOL"]:
         )
 
         if len(daily) >= 2:
-
             previous_day_high = daily["High"].iloc[-2]
             today_high = daily["High"].iloc[-1]
             ltp = daily["Close"].iloc[-1]
-           
+
             avg_5d_volume = daily["Volume"].mean()
             today_volume = daily["Volume"].iloc[-1]
             volume_ratio = today_volume / avg_5d_volume
- 
-            if today_high > previous_day_high and ltp > previous_day_high:
 
+            if today_high > previous_day_high and ltp > previous_day_high:
                 breakout_pct = round(
                     ((today_high - previous_day_high) / previous_day_high) * 100,
                     2
@@ -127,15 +125,17 @@ for stock in sector_df["SYMBOL"]:
                     "LTP": round(ltp, 2),
                     "Breakout %": f"{breakout_pct}%"
                 })
+
             if volume_ratio >= 2:
                 high_volume.append({
                     "Stock": stock,
                     "Avg 5D Volume": int(avg_5d_volume),
                     "Today Volume": int(today_volume),
-                    "Volume Spike": f"{round(volume_ratio, 2)}x"})
-         
-        except:
-            pass
+                    "Volume Spike": f"{round(volume_ratio, 2)}x"
+                })
+
+    except Exception:
+        pass
 
     if daily_breakout:
         st.dataframe(
