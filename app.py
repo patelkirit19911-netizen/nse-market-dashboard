@@ -176,8 +176,8 @@ with col3:
             df.style.format({"Prev Day High": "{:.2f}","Today High": "{:.2f}","LTP": "{:.2f}"}).map(
                 lambda v: "color: green; font-weight: bold;",
                 subset=["Breakout %"]
-            )
-    else:
+            ),
+     else:
         st.info("No daily breckout today")
 with col4:
     st.subheader("📉 Daily Breakdown")
