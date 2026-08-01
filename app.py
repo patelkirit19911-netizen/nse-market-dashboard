@@ -85,7 +85,7 @@ font-weight:bold;
 
 for _, row in chart_df.iterrows():
     if pd.isna(row["Change"]):
-    continue
+        continue
     color = "#0a9d36" if row["Change"] >= 0 else "#d62828"
 
     width = max(2, min(abs(row["Change"]) * 60, 260))
