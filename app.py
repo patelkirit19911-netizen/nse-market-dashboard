@@ -162,7 +162,7 @@ with col3:
                 subset=["Breakout %"]),use_container_width=True,hide_index=True)
     else:
         st.info("No daily breckout today")
- with col4:
+with col4:
     st.subheader("📉 Daily Breakdown")
     st.info("No daily breakdown today")       
 st.subheader("🔥 Last 5 Days High Volume")
