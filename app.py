@@ -152,6 +152,14 @@ for stock in sector_df["SYMBOL"]:
         pass
 
 with col3:
+    st.markdown("""
+<style>
+[data-testid="stDataFrame"] td:nth-child(5){
+    color: green !important;
+    font-weight: bold !important;
+}
+</style>
+""", unsafe_allow_html=True)
     st.subheader("📅 Daily Breakout")
     if daily_breakout:
         st.dataframe(
