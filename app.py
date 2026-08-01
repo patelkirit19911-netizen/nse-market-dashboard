@@ -152,46 +152,16 @@ for stock in sector_df["SYMBOL"]:
         pass
 
 with col3:
-    st.markdown("""
-<style>
-[data-testid="stDataFrame"] td:nth-child(5){
+    st.markdown("""<style>[data-testid="stDataFrame"] td:nth-child(5){
     color: green !important;
-    font-weight: bold !important;
-}
+    font-weight: bold !important;}
 </style>
 """, unsafe_allow_html=True)
     st.subheader("📅 Daily Breakout")
     if daily_breakout:
         df = pd.DataFrame(daily_breakout)
 
-df["Breakout %"] = df["Breakout %"].apply(
-    lambda x: f'<span style="color:green;font-weight:bold">{x}</span>'
-)
-st.markdown("""
-<style>
-table {
-    width: 100%;
-    border-collapse: collapse;
-}
-th {
-    background-color: #f5f5f5;
-}
-td, th {
-    border: 1px solid #ddd;
-    padding: 8px;
-    text-align: center;
-}
-span {
-    color: green !important;
-    font-weight: bold !important;
-}
-</style>
-""", unsafe_allow_html=True)
-st.write(
-    df.to_html(index=False, escape=False),
-    unsafe_allow_html=True
-)
-        
+
     else:
         st.info("No Daily Breakout Today")   
 with col4:
