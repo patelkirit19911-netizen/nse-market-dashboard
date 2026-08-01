@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 import yfinance as yf
 import plotly.graph_objects as go
+from st_aggrid import AgGrid, GridOptionsBuilder, JsCode
 st.set_page_config(page_title="NSE Market Dashboard", layout="wide")
 
 st.title("📊 NSE MARKET DASHBOARD")
