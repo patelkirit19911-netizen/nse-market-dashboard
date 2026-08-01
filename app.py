@@ -177,6 +177,9 @@ with col3:
                 lambda v: "color: green; font-weight: bold;",
                 subset=["Breakout %"]
             ),
+            use_container_width=True,
+            hide_index=True 
+        )
      else:
         st.info("No daily breckout today")
 with col4:
