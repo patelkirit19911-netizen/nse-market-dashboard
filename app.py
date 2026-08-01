@@ -219,11 +219,12 @@ for stock in sector_df["SYMBOL"]:
         pass
 
 if weekly_breakout:
+    df = pd.DataFrame(weekly_breakout)
     st.dataframe(
-        pd.DataFrame(weekly_breakout),
-        use_container_width=True,
-        hide_index=True
-    )
+            df.style.map(
+                lambda v: "color: green; font-weight: bold;",
+                subset=["Breakout %"]),use_container_width=True,hide_index=True)
+
 else:
     st.info("No Weekly Breakout Today")
     
