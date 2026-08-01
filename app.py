@@ -75,18 +75,14 @@ with left:
     )
 
     st.plotly_chart(fig, use_container_width=True)
+    for sector in chart_df["Sector"]:
 
+    if st.button(f"Click", key=sector):
+        st.session_state["selected_sector"] = sector
 with right:
 
-    st.subheader("📂 Select Sector")
+    st.empty()
 
-    selected_sector = st.selectbox(
-        "Sector",
-        chart_df["Sector"],
-        label_visibility="collapsed"
-    )
-
-    st.button("📂 Open", use_container_width=True)
     
 col3, col4 = st.columns([3,2])
 
