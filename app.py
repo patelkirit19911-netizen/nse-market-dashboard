@@ -132,11 +132,10 @@ for stock in sector_df["SYMBOL"]:
                     "Stock": stock,
                     "Avg 5D Volume": int(avg_5d_volume),
                     "Today Volume": int(today_volume),
-                    "Volume Spike": f"{round(volume_ratio, 2)}x"
-                })
+                    "Volume Spike": f"{round(volume_ratio, 2)}x"})
          
-            except:
-                pass
+        except:
+            pass
 
     if daily_breakout:
         st.dataframe(
