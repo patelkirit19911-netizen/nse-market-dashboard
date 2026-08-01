@@ -157,10 +157,11 @@ with col3:
     if daily_breakout:
         df = pd.DataFrame(daily_breakout)
         st.dataframe(
-        df,
-        use_container_width=True,
-        hide_index=True
-        )
+            df.style.map(
+                lambda v: "color: green; font-weight: bold;",
+                subset=["Breakout %"]),use_container_width=True,hide_index=True)
+    else:
+        st.info("No daily breckout today")
     
 with col4:
     st.subheader("🔥 Last 5 Days High Volume")
