@@ -108,6 +108,7 @@ components.html(html, height=700, scrolling=True)
 col3, col4 = st.columns([3,2])
 
 daily_breakout = []
+daily_breakdown = []
 high_volume = []
 
 for stock in sector_df["SYMBOL"]:
@@ -122,6 +123,9 @@ for stock in sector_df["SYMBOL"]:
             previous_day_high = daily["High"].iloc[-2]
             today_high = daily["High"].iloc[-1]
             ltp = daily["Close"].iloc[-1]
+            
+            previous_day_low = daily["Low"].iloc[-2]
+            today_low = daily["Low"].iloc[-1]
 
             avg_5d_volume = daily["Volume"].mean()
             today_volume = daily["Volume"].iloc[-1]
@@ -140,6 +144,19 @@ for stock in sector_df["SYMBOL"]:
                     "LTP": round(ltp, 2),
                     "Breakout %": f"{breakout_pct}%"
                 })
+            if today_low < previous_day_low and ltp < previous_day_low:
+                breakdown_pct = round(
+                    ((previous_day_low - today_low) / previous_day_low) * 100,
+                    2
+                )
+
+    daily_breakdown.append({
+        "Stock": stock,
+        "Prev Day Low": round(previous_day_low, 2),
+        "Today Low": round(today_low, 2),
+        "LTP": round(ltp, 2),
+        "Breakdown %": f"{breakdown_pct}%"
+    })
 
             if volume_ratio >= 2:
                 high_volume.append({
