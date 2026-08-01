@@ -173,7 +173,7 @@ with col3:
     if daily_breakout:
         df = pd.DataFrame(daily_breakout)
         st.dataframe(
-            df.style.format({"Prev Week High": "{:.2f}","Today High": "{:.2f}","LTP": "{:.2f}"}).map(
+            df.style.format({"Prev day High": "{:.2f}","Today High": "{:.2f}","LTP": "{:.2f}"}).map(
                 lambda v: "color: green; font-weight: bold;",
                 subset=["Breakout %"]),use_container_width=True,hide_index=True)
     else:
@@ -184,7 +184,7 @@ with col4:
     if daily_breakdown:
         df = pd.DataFrame(daily_breakdown)
         st.dataframe(
-            df.style.format({"Prev Week High": "{:.2f}","Today High": "{:.2f}","LTP": "{:.2f}"}).map(
+            df.style.format({"Prev day low": "{:.2f}","Today low": "{:.2f}","LTP": "{:.2f}"}).map(
                 lambda v: "color: red; font-weight: bold;",
                 subset=["Breakdown %"]
             ),
