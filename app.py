@@ -173,12 +173,10 @@ with col3:
     if daily_breakout:
         df = pd.DataFrame(daily_breakout)
         st.dataframe(
-            df.style.map(
+            df.style.format({"Prev Day High": "{:.2f}","Today High": "{:.2f}","LTP": "{:.2f}"}).map(
                 lambda v: "color: green; font-weight: bold;",
                 subset=["Breakout %"]
-            ),
-            use_container_width=True,
-            hide_index=True)
+            )
     else:
         st.info("No daily breckout today")
 with col4:
