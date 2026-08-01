@@ -162,11 +162,17 @@ with col3:
 """, unsafe_allow_html=True)
     st.subheader("📅 Daily Breakout")
     if daily_breakout:
-        st.dataframe(
-            pd.DataFrame(daily_breakout),
-            use_container_width=True,
-            hide_index=True
-        )
+        df = pd.DataFrame(daily_breakout)
+
+df["Breakout %"] = df["Breakout %"].apply(
+    lambda x: f'<span style="color:green;font-weight:bold">{x}</span>'
+)
+
+st.write(
+    df.to_html(index=False, escape=False),
+    unsafe_allow_html=True
+)
+        
     else:
         st.info("No Daily Breakout Today")   
 with col4:
