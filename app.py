@@ -142,7 +142,7 @@ for stock in sector_df["SYMBOL"]:
                     "Prev Day High": round(previous_day_high, 2),
                     "Today High": round(today_high, 2),
                     "LTP": round(ltp, 2),
-                    "Breakout %": f"{breakout_pct.2f}%"
+                    "Breakout %": f"{breakout_pct:.2f}%"
                 })
             if today_low < previous_day_low and ltp < previous_day_low:
                 breakdown_pct = round(
