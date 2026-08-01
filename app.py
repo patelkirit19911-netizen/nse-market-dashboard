@@ -88,7 +88,7 @@ with right:
 
     st.button("📂 Open", use_container_width=True)
     
-col3, col4 = st.columns(2)
+col3, col4 = st.columns([3,2])
 
 with col3:
     st.subheader("📅 Daily Breakout")
@@ -135,17 +135,17 @@ for stock in sector_df["SYMBOL"]:
               "Volume Spike": f"{round(volume_ratio, 2)}x"})
          
 
-    except:
-        pass
+        except:
+            pass
 
-if daily_breakout:
-    st.dataframe(
-        pd.DataFrame(daily_breakout),
-        use_container_width=True,
-        hide_index=True
-    )
-else:
-    st.info("No Daily Breakout Today")
+    if daily_breakout:
+        st.dataframe(
+            pd.DataFrame(daily_breakout),
+            use_container_width=True,
+            hide_index=True
+        )
+    else:
+        st.info("No Daily Breakout Today")
 with col4:
     st.subheader("🔥 Last 5 Days High Volume")
     if high_volume:
