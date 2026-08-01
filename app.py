@@ -90,9 +90,8 @@ with right:
     
 col3, col4 = st.columns([3,2])
 
-
-    daily_breakout = []
-    high_volume = []
+daily_breakout = []
+high_volume = []
 
 for stock in sector_df["SYMBOL"]:
     try:
