@@ -156,17 +156,12 @@ with col3:
     st.subheader("📅 Daily Breakout")
     if daily_breakout:
         df = pd.DataFrame(daily_breakout)
-        gb = GridOptionsBuilder.from_dataframe(df)
-        gb.configure_column("Breakout %",cellStyle=JsCode("""
-        function(params){
-        return {
-            'color':'green',
-            'fontWeight':'bold'}}"""))
-
-        AgGrid(df,gridOptions=gb.build(),fit_columns_on_grid_load=True,height=350)
-
-    else:
-        st.info("No Daily Breakout Today")   
+        st.dataframe(
+        df,
+        use_container_width=True,
+        hide_index=True
+        )
+    
 with col4:
     st.subheader("🔥 Last 5 Days High Volume")
     if high_volume:
