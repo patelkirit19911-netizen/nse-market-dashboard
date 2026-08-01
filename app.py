@@ -90,8 +90,7 @@ with right:
     
 col3, col4 = st.columns([3,2])
 
-with col3:
-    st.subheader("📅 Daily Breakout")
+
     daily_breakout = []
     high_volume = []
 
@@ -137,6 +136,8 @@ for stock in sector_df["SYMBOL"]:
     except Exception:
         pass
 
+with col3:
+    st.subheader("📅 Daily Breakout")
     if daily_breakout:
         st.dataframe(
             pd.DataFrame(daily_breakout),
@@ -144,7 +145,7 @@ for stock in sector_df["SYMBOL"]:
             hide_index=True
         )
     else:
-        st.info("No Daily Breakout Today")
+        st.info("No Daily Breakout Today")   
 with col4:
     st.subheader("🔥 Last 5 Days High Volume")
     if high_volume:
