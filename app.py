@@ -152,9 +152,9 @@ for stock in sector_df["SYMBOL"]:
 
                 daily_breakdown.append({
                     "Stock": stock,
-                    "Prev Day Low": round(previous_day_low, 2),
-                    "Today Low": round(today_low, 2),
-                    "LTP": round(ltp, 2),
+                    "Prev Day Low": f"{previous_day_low:.2f}",
+                    "Today Low": f"{today_low:.2f}",
+                    "LTP": f"{ltp:.2f}", 
                     "Breakdown %": f"{breakdown_pct}%"
                 })
             if volume_ratio >= 2:
