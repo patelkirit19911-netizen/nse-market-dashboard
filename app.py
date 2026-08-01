@@ -167,7 +167,26 @@ with col3:
 df["Breakout %"] = df["Breakout %"].apply(
     lambda x: f'<span style="color:green;font-weight:bold">{x}</span>'
 )
-
+st.markdown("""
+<style>
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+th {
+    background-color: #f5f5f5;
+}
+td, th {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+}
+span {
+    color: green !important;
+    font-weight: bold !important;
+}
+</style>
+""", unsafe_allow_html=True)
 st.write(
     df.to_html(index=False, escape=False),
     unsafe_allow_html=True
