@@ -144,19 +144,19 @@ for stock in sector_df["SYMBOL"]:
                     "LTP": round(ltp, 2),
                     "Breakout %": f"{breakout_pct}%"
                 })
-                    if today_low < previous_day_low and ltp < previous_day_low:
-            breakdown_pct = round(
-                ((previous_day_low - today_low) / previous_day_low) * 100,
-                2
-            )
+            if today_low < previous_day_low and ltp < previous_day_low:
+                breakdown_pct = round(
+                    ((previous_day_low - today_low) / previous_day_low) * 100,
+                    2
+                )
 
-            daily_breakdown.append({
-                "Stock": stock,
-                "Prev Day Low": round(previous_day_low, 2),
-                "Today Low": round(today_low, 2),
-                "LTP": round(ltp, 2),
-                "Breakdown %": f"{breakdown_pct}%"
-            })
+                daily_breakdown.append({
+                    "Stock": stock,
+                    "Prev Day Low": round(previous_day_low, 2),
+                    "Today Low": round(today_low, 2),
+                    "LTP": round(ltp, 2),
+                    "Breakdown %": f"{breakdown_pct}%"
+                })
             if volume_ratio >= 2:
                 high_volume.append({
                     "Stock": stock,
