@@ -42,40 +42,63 @@ for sector in sector_df["SECTOR"].unique():
 # DASHBOARD V2 - PART 1
 # ===========================
 
-left, right = st.columns([2, 1])
+import streamlit.components.v1 as components
 
-chart_df = pd.DataFrame(
-    list(sector_change.items()),
-    columns=["Sector", "Change"]
-).sort_values("Change", ascending=True)
+st.subheader("📊 Sector Performance (1D)")
 
-colors = ["green" if x >= 0 else "red" for x in chart_df["Change"]]
+selected_sector = None
 
-with left:
+html = """
+<style>
+.row{
+display:flex;
+align-items:center;
+margin:8px 0;
+font-family:Arial;
+}
+.name{
+width:120px;
+font-weight:bold;
+}
+.barbg{
+width:260px;
+height:18px;
+background:#eeeeee;
+border-radius:10px;
+margin:0 10px;
+overflow:hidden;
+}
+.bar{
+height:18px;
+}
+.value{
+width:60px;
+font-weight:bold;
+}
+</style>
+"""
 
-    st.subheader("📊 Sector Performance (1D)")
+for _, row in chart_df.sort_values("Change", ascending=False).iterrows():
 
-    fig = go.Figure()
+    color = "#0a9d36" if row["Change"] >= 0 else "#d62828"
 
-    fig.add_trace(go.Bar(
-        x=chart_df["Change"],
-        y=chart_df["Sector"],
-        orientation="h",
-        marker_color=colors,
-        text=[f"{x:.2f}%" for x in chart_df["Change"]],
-        textposition="outside",
-    ))
+    width = min(abs(row["Change"]) * 60, 260)
 
-    fig.update_layout(
-        height=700,
-        showlegend=False,
-        plot_bgcolor="white",
-        paper_bgcolor="white",
-        margin=dict(l=5, r=5, t=5, b=5)
-    )
+    html += f"""
+    <div class="row">
+        <div class="name">{row['Sector']}</div>
 
-    st.plotly_chart(fig, use_container_width=True)
-    
+        <div class="barbg">
+            <div class="bar"
+                 style="width:{width}px;background:{color};">
+            </div>
+        </div>
+
+        <div class="value">{row['Change']:.2f}%</div>
+    </div>
+    """
+
+components.html(html, height=700, scrolling=True)
 col3, col4 = st.columns([3,2])
 
 daily_breakout = []
