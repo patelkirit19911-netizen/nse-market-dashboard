@@ -76,9 +76,8 @@ with left:
 
     st.plotly_chart(fig, use_container_width=True)
     for sector in chart_df["Sector"]:
-
-    if st.button(f"Click", key=sector):
-        st.session_state["selected_sector"] = sector
+        if st.button(f"Click", key=sector):
+    st.session_state["selected_sector"] = sector
 with right:
 
     st.empty()
