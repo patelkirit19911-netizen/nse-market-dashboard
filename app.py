@@ -166,11 +166,11 @@ with col3:
 with col4:
     st.subheader("🔥 Last 5 Days High Volume")
     if high_volume:
+        df = pd.DataFrame(high_volume)
         st.dataframe(
-        pd.DataFrame(high_volume),
-        use_container_width=True,
-        hide_index=True
-        )
+            df.style.map(
+                lambda v: "color: green; font-weight: bold;",
+                subset=["Volume Spike"]),use_container_width=True,hide_index=True)
     else:
         st.info("No High Volume Stocks Today")
 st.subheader("📈 Weekly Breakout")
