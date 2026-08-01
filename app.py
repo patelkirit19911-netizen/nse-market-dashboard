@@ -162,9 +162,8 @@ with col3:
                 subset=["Breakout %"]),use_container_width=True,hide_index=True)
     else:
         st.info("No daily breckout today")
-    
-with col4:
-    st.subheader("🔥 Last 5 Days High Volume")
+        
+st.subheader("🔥 Last 5 Days High Volume")
     if high_volume:
         df = pd.DataFrame(high_volume)
         st.dataframe(
@@ -173,6 +172,7 @@ with col4:
                 subset=["Volume Spike"]),use_container_width=True,hide_index=True)
     else:
         st.info("No High Volume Stocks Today")
+
 st.subheader("📈 Weekly Breakout")
 weekly_breakout = []
 
