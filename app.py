@@ -239,8 +239,8 @@ for stock in sector_df["SYMBOL"]:
             )
 
             if len(intraday) >= 1:
-            orb_high = intraday["High"].iloc[0]
-            orb_low = intraday["Low"].iloc[0]
+                orb_high = intraday["High"].iloc[0]
+                orb_low = intraday["Low"].iloc[0]
 
             today_high = daily["High"].iloc[-1]
             yesterday_high = daily["High"].iloc[-2]
