@@ -34,10 +34,12 @@ def get_orb_scanner(sector_df):
 
             signal = ""
 
-            if current_price > orb_high and current_volume > (orb_volume * 0.30):
-                signal = "🟢 BUY"
-            elif current_price < orb_low and current_volume > (orb_volume * 0.30):
-                signal = "🔴 SELL"
+            if (current_price > orb_high * 1.002
+                and current_volume > (orb_volume * 0.50)):
+                    signal = "🟢 BUY"
+            elif (current_price < orb_low * 0.998
+                  and current_volume > (orb_volume * 0.50)):
+                      signal = "🔴 SELL"
             else:
                 continue
 
