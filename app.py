@@ -303,5 +303,15 @@ if weekly_breakout:
 
 else:
     st.info("No Weekly Breakout Today")
-    
+st.subheader("⭐ ORB Scanner")
+
+if orb_scanner:
+    df = pd.DataFrame(orb_scanner)
+    st.dataframe(
+        df,
+        use_container_width=True,
+        hide_index=True
+    )
+else:
+    st.info("No ORB Signal Today")
 
