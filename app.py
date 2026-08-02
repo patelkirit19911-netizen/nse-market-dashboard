@@ -263,13 +263,12 @@ if current_price > orb_high:
     })
 
 elif current_price < orb_low:
-    orb_scanner.append({
-        "Stock": stock,
-        "Sector": sector,
-        "Current Price": round(current_price, 2),
-        "%": f"{change_pct:+.2f}%",
-        "Signal": "🔴 SELL"
-    })
+      orb_scanner.append({
+          "Stock": stock,
+          "Sector": sector,
+          "Current Price": round(current_price, 2),
+          "%": f"{change_pct:+.2f}%",
+          "Signal": "🔴 SELL"})
 
             if yesterday_high <= previous_week_high and today_high > previous_week_high:
 
