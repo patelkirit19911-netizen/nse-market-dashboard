@@ -231,7 +231,9 @@ for stock in sector_df["SYMBOL"]:
             interval="1d",
             auto_adjust=True
             )
-            
+            today_high = daily["High"].iloc[-1]
+            yesterday_high = daily["High"].iloc[-2]
+            ltp = daily["Close"].iloc[-1]
 
             if yesterday_high <= previous_week_high and today_high > previous_week_high:
 
