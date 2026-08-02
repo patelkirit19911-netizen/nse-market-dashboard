@@ -252,29 +252,28 @@ for stock in sector_df["SYMBOL"]:
                 change_pct = round(((current_price - previous_close) / previous_close) * 100,2)
 
                 sector = sector_df.loc[sector_df["SYMBOL"] == stock,"SECTOR"].values[0]
-
-if current_price > orb_high:
-    orb_scanner.append({
-        "Stock": stock,
-        "Sector": sector,
-        "Current Price": round(current_price, 2),
-        "%": f"{change_pct:+.2f}%",
-        "Signal": "🟢 BUY"
-    })
-
-elif current_price < orb_low:
-      orb_scanner.append({
-          "Stock": stock,
-          "Sector": sector,
-          "Current Price": round(current_price, 2),
-          "%": f"{change_pct:+.2f}%",
-          "Signal": "🔴 SELL"})
+                if current_price > orb_high:
+                    orb_scanner.append({
+                    "Stock": stock,
+                    "Sector": sector,
+                    "Current Price": round(current_price, 2),
+                    "%": f"{change_pct:+.2f}%",
+                    "Signal": "🟢 BUY"
+                    })
+                 elif current_price < orb_low:
+                       orb_scanner.append({
+                       "Stock": stock,
+                       "Sector": sector,
+                       "Current Price": round(current_price, 2),
+                       "%": f"{change_pct:+.2f}%",
+                       "Signal": "🔴 SELL"})
 
             if yesterday_high <= previous_week_high and today_high > previous_week_high:
 
                 breakout_pct = round(
-                    ((today_high - previous_week_high) / previous_week_high) * 100
-                )
+                    ((today_high - previous_week_high) / previous_week_high) * 100)
+
+
 
                 weekly_breakout.append({
                     "Stock": stock,
