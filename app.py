@@ -3,6 +3,7 @@ import pandas as pd
 import yfinance as yf
 import plotly.graph_objects as go
 from st_aggrid import AgGrid, GridOptionsBuilder, JsCode
+from orb_scanner import get_orb_scanner
 st.set_page_config(page_title="NSE Market Dashboard", layout="wide")
 
 st.title("📊 NSE MARKET DASHBOARD")
@@ -264,13 +265,13 @@ else:
     st.info("No Weekly Breakout Today")
 st.subheader("⭐ ORB Scanner")
 
-if orb_scanner:
-    df = pd.DataFrame(orb_scanner)
+orb_df = get_orb_scanner(sector_df)
+
+if not orb_df.empty:
     st.dataframe(
-        df,
+        orb_df,
         use_container_width=True,
         hide_index=True
     )
 else:
     st.info("No ORB Signal Today")
-
