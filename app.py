@@ -231,42 +231,7 @@ for stock in sector_df["SYMBOL"]:
             interval="1d",
             auto_adjust=True
             )
-            # ORB 5 Minute Data
-            intraday = yf.Ticker(stock + ".NS").history(
-            period="1d",
-            interval="5m",
-            auto_adjust=True
-            )
-
-            if len(intraday) >= 1:
-                orb_high = intraday["High"].iloc[0]
-                orb_low = intraday["Low"].iloc[0]
-
-                today_high = daily["High"].iloc[-1]
-                yesterday_high = daily["High"].iloc[-2]
-                ltp = daily["Close"].iloc[-1]
-                current_price = ltp
-
-                previous_close = daily["Close"].iloc[-2]
-
-                change_pct = round(((current_price - previous_close) / previous_close) * 100,2)
-
-                sector = sector_df.loc[sector_df["SYMBOL"] == stock,"SECTOR"].values[0]
-                    if current_price > orb_high:
-                        orb_scanner.append({
-                        "Stock": stock,
-                        "Sector": sector,
-                        "Current Price": round(current_price, 2),
-                        "%": f"{change_pct:+.2f}%",
-                        "Signal": "🟢 BUY"})
-                        
-                    elif current_price < orb_low:
-                          orb_scanner.append({
-                          "Stock": stock,
-                          "Sector": sector,
-                          "Current Price": round(current_price, 2),
-                          "%": f"{change_pct:+.2f}%",
-                          "Signal": "🔴 SELL"})
+            
 
             if yesterday_high <= previous_week_high and today_high > previous_week_high:
 
