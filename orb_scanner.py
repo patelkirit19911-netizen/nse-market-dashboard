@@ -16,6 +16,10 @@ def get_orb_scanner(sector_df):
                 interval="5m",
                 auto_adjust=True
             )
+            intraday["VWAP"] = (
+                (intraday["Close"] * intraday["Volume"]).cumsum()
+                / intraday["Volume"].cumsum())
+            
             orb_volume = intraday["Volume"].iloc[:3].sum()
             current_volume = intraday["Volume"].iloc[-1]
             if len(intraday) < 2:
@@ -25,6 +29,7 @@ def get_orb_scanner(sector_df):
             orb_low = intraday["Low"].iloc[0]
 
             current_price = intraday["Close"].iloc[-1]
+            current_vwap = intraday["VWAP"].iloc[-1]
             previous_close = intraday["Close"].iloc[-2]
 
             change_pct = round(
