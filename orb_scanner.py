@@ -63,10 +63,9 @@ def get_orb_scanner(sector_df):
 
     df = pd.DataFrame(orb_scanner)
 
-if not df.empty:
-    df["abs_change"] = df["%"].str.replace("%", "").astype(float).abs()
-    df = df.sort_values("abs_change", ascending=False)
-    df = df.drop(columns=["abs_change"])
-    df = df.head(3)
-
-return df
+    if not df.empty:
+        df["abs_change"] = df["%"].str.replace("%", "").astype(float).abs()
+        df = df.sort_values("abs_change", ascending=False)
+        df = df.drop(columns=["abs_change"])
+        df = df.head(3)
+    return df
