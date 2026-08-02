@@ -16,7 +16,8 @@ def get_orb_scanner(sector_df):
                 interval="5m",
                 auto_adjust=True
             )
-
+            orb_volume = intraday["Volume"].iloc[:3].sum()
+            current_volume = intraday["Volume"].iloc[-1]
             if len(intraday) < 2:
                 continue
 
@@ -33,9 +34,9 @@ def get_orb_scanner(sector_df):
 
             signal = ""
 
-            if current_price > orb_high:
+            if current_price > orb_high and current_volume > (orb_volume * 0.30):
                 signal = "🟢 BUY"
-            elif current_price < orb_low:
+            elif current_price < orb_low and current_volume > (orb_volume * 0.30):
                 signal = "🔴 SELL"
             else:
                 continue
