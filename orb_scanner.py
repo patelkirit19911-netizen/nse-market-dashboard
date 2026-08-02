@@ -54,4 +54,12 @@ def get_orb_scanner(sector_df):
         except:
             pass
 
-    return pd.DataFrame(orb_scanner)
+    df = pd.DataFrame(orb_scanner)
+
+if not df.empty:
+    df["abs_change"] = df["%"].str.replace("%", "").astype(float).abs()
+    df = df.sort_values("abs_change", ascending=False)
+    df = df.drop(columns=["abs_change"])
+    df = df.head(10)
+
+return df
