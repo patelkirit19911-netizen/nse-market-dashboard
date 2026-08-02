@@ -56,6 +56,7 @@ def get_orb_scanner(sector_df):
                 "Current Price": round(current_price, 2),
                 "%": f"{change_pct:+.2f}%",
                 "Signal": signal
+                "Time": intraday.index[-1].strftime("%I:%M %p")
             })
 
         except:
