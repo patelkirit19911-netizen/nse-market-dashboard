@@ -210,7 +210,7 @@ else:
 
 st.subheader("📈 Weekly Breakout")
 weekly_breakout = []
-
+orb_scanner = []
 for stock in sector_df["SYMBOL"]:
     try:
         # Weekly (1W) data
@@ -231,6 +231,16 @@ for stock in sector_df["SYMBOL"]:
             interval="1d",
             auto_adjust=True
             )
+            # ORB 5 Minute Data
+            intraday = yf.Ticker(stock + ".NS").history(
+            period="1d",
+            interval="5m",
+            auto_adjust=True
+            )
+
+            if len(intraday) >= 1:
+            orb_high = intraday["High"].iloc[0]
+            orb_low = intraday["Low"].iloc[0]
 
             today_high = daily["High"].iloc[-1]
             yesterday_high = daily["High"].iloc[-2]
