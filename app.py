@@ -70,7 +70,7 @@ for _, row in chart_df.iterrows():
         for stock in sector_stocks:
             try:
                 data = yf.Ticker(stock + ".NS").history(
-                    period="2d",
+                    period="5d",
                     auto_adjust=True
                 )
                 st.write(stock)
