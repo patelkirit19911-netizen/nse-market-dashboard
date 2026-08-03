@@ -90,11 +90,16 @@ for _, row in chart_df.iterrows():
         
         for s, c in stock_data:
 
-            color = "🟢" if c >= 0 else "🔴"
             try:
                 c = float(c)
-                bar = "🟩" * min(int(abs(c) * 2), 10)
+                if c >= 0:
+                    color = "🟢"
+                    bar = "🟩" * min(int(abs(c) * 2), 10)
+                else:
+                    color = "🔴"
+                    bar = "🟥" * min(int(abs(c) * 2), 10)
             except:
+                color = "⚪"
                 bar = ""
             st.markdown(
                 f"{color} **{s}** {c:+.2f}% &nbsp;&nbsp; {bar}",
