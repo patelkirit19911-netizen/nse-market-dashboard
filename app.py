@@ -80,11 +80,19 @@ fig.update_layout(
     showlegend=False
 )
 
-st.plotly_chart(
+selected = plotly_events(
     fig,
-    use_container_width=True,
-    key="sector_graph"
+    click_event=True,
+    hover_event=False,
+    select_event=False,
+    override_height=650
 )
+
+selected_sector = None
+
+if selected:
+    selected_sector = chart_df.iloc[selected[0]["pointIndex"]]["Sector"]
+    st.success(f"Selected Sector : {selected_sector}")
 col3, col4 = st.columns([3,2])
 high_volume = get_high_volume(sector_df["SYMBOL"].tolist())
 
