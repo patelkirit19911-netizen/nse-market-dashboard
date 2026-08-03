@@ -76,17 +76,16 @@ for _, row in chart_df.iterrows():
         except:
             pass
 
-    stock_data = sorted(stock_data, key=lambda x: x[1], reverse=True)
+stock_data = sorted(stock_data, key=lambda x: x[1], reverse=True)
 
-    for s, c in stock_data:
-
-        if c >= 0:
-            color = "🟢"
-        else:
-            color = "🔴"
-
+for s, c in stock_data:
+    if c >= 0:
+        color = "🟢"
+    else:
+        color = "🔴"
+        
         bar = "🟩" * min(int(abs(c) * 2), 10)
-
+        
         st.markdown(f"{color} **{s}** {c:+.2f}% &nbsp;&nbsp; {bar}", unsafe_allow_html=True)
     
 
