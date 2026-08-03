@@ -111,16 +111,15 @@ col3, col4 = st.columns([3,2])
 
             
 with col3:
-
-st.subheader("🔥 Last 5 Days High Volume")
-if high_volume:
-    df = pd.DataFrame(high_volume)
-    st.dataframe(
-        df.style.map(
-            lambda v: "color: green; font-weight: bold;",
-            subset=["Volume Spike"]),use_container_width=True,hide_index=True)
-else:
-    st.info("No High Volume Stocks Today")
+    st.subheader("🔥 Last 5 Days High Volume")
+    if high_volume:
+        df = pd.DataFrame(high_volume)
+        st.dataframe(
+            df.style.map(
+                lambda v: "color: green; font-weight: bold;",
+                subset=["Volume Spike"]),use_container_width=True,hide_index=True)
+    else:
+        st.info("No High Volume Stocks Today")
 
 st.subheader("📈 Weekly Breakout")
 weekly_breakout = []
