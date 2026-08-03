@@ -1,33 +1,75 @@
-# Previous Day High
-previous_day_high = daily_data["High"].iloc[-2]
+import yfinance as yf
+import pandas as pd
 
-# Current Today High
-today_high = intraday["High"].max()
+def get_intraday_gainer(sector_df):
 
-# Last completed 5-minute candle
-last_candle = intraday.iloc[-1]
+    results = []
 
-# Previous 5 completed candles (last candle ko chhodkar)
-prev_5 = intraday.iloc[-6:-1]
+    for _, row in sector_df.iterrows():
 
-# ----------------------------
-# Condition 1
-condition1 = today_high > previous_day_high
+        stock = row["SYMBOL"]
+        sector = row["SECTOR"]
 
-# Condition 2
-# Last candle ne naya Today High banaya
-condition2 = (
-    last_candle["High"] >= today_high
-)
+        try:
+            # Daily Data
+            daily = yf.download(
+                stock + ".NS",
+                period="5d",
+                interval="1d",
+                progress=False
+            )
 
-# Condition 3
-# Breakout candle ka volume > previous 5 candles ke highest volume
-condition3 = (
-    last_candle["Volume"] > prev_5["Volume"].max()
-)
+            if len(daily) < 2:
+                continue
 
-# Final Signal
-if condition1 and condition2 and condition3:
-    signal = "BUY"
-else:
-    signal = ""
+            # 5 Minute Data
+            intraday = yf.download(
+                stock + ".NS",
+                period="1d",
+                interval="5m",
+                progress=False
+            )
+
+            if len(intraday) < 7:
+                continue
+
+            # Previous Day High
+            previous_day_high = daily["High"].iloc[-2]
+
+            # Today's High
+            today_high = intraday["High"].max()
+
+            # First 5 Minute Candle
+            first_candle = intraday.iloc[0]
+
+            # Last Candle
+            last_candle = intraday.iloc[-1]
+
+            # Previous 5 Candles
+            prev_5 = intraday.iloc[-6:-1]
+
+            # Condition 1
+            condition1 = today_high > previous_day_high
+
+            # Condition 2
+            condition2 = last_candle["High"] > first_candle["High"]
+
+            # Condition 3
+            condition3 = (
+                last_candle["Volume"] >
+                prev_5["Volume"].max()
+            )
+
+            if condition1 and condition2 and condition3:
+
+                results.append({
+                    "Stock": stock,
+                    "Sector": sector,
+                    "LTP": round(last_candle["Close"], 2),
+                    "Signal": "BUY"
+                })
+
+        except:
+            pass
+
+    return pd.DataFrame(results)
