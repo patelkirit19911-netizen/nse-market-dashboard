@@ -108,43 +108,7 @@ for _, row in chart_df.iterrows():
 
 components.html(html, height=650, scrolling=False)
 
-if selected_sector:
 
-    st.subheader(f"📈 {selected_sector} Stocks")
-
-    sector_stocks = sector_df[
-        sector_df["SECTOR"] == selected_sector
-    ]["SYMBOL"].tolist()
-
-    gainers = []
-    losers = []
-
-    for stock in sector_stocks:
-        try:
-            data = yf.Ticker(stock + ".NS").history(period="2d")
-
-            if len(data) >= 2:
-                chg = ((data["Close"].iloc[-1] - data["Close"].iloc[-2])
-                       / data["Close"].iloc[-2]) * 100
-
-                if chg >= 0:
-                    gainers.append((stock, chg))
-                else:
-                    losers.append((stock, chg))
-        except:
-            pass
-
-    c1, c2 = st.columns(2)
-
-    with c1:
-        st.success("🟢 Gainers")
-        for s, c in sorted(gainers, key=lambda x: x[1], reverse=True):
-            st.write(f"{s}  {c:.2f}%")
-
-    with c2:
-        st.error("🔴 Losers")
-        for s, c in sorted(losers, key=lambda x: x[1]):
-            st.write(f"{s}  {c:.2f}%")    
 col3, col4 = st.columns([3,2])
 high_volume = get_high_volume(sector_df["SYMBOL"].tolist())
 
