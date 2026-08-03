@@ -86,7 +86,7 @@ for _, row in chart_df.iterrows():
                 
 
         stock_data = sorted(stock_data, key=lambda x: x[1], reverse=True)
-
+        st.write(stock_data)
         for s, c in stock_data:
 
             color = "🟢" if c >= 0 else "🔴"
