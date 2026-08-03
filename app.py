@@ -59,7 +59,38 @@ for _, row in chart_df.iterrows():
 
     sector = row["Sector"]
     change = row["Change"]
+    with st.expander(f"{sector} ({change:.2f}%)"):
 
+    sector_stocks = sector_df[
+        sector_df["SECTOR"] == sector
+    ]["SYMBOL"].tolist()
+
+    stock_data = []
+
+    for stock in sector_stocks:
+        try:
+            data = yf.Ticker(stock + ".NS").history(period="2d", auto_adjust=True)
+
+            if len(data) >= 2:
+                chg = ((data["Close"].iloc[-1] - data["Close"].iloc[-2])
+                       / data["Close"].iloc[-2]) * 100
+
+                stock_data.append((stock, chg))
+        except:
+            pass
+
+    stock_data = sorted(stock_data, key=lambda x: x[1], reverse=True)
+
+    for s, c in stock_data:
+
+        if c >= 0:
+            color = "🟢"
+        else:
+            color = "🔴"
+
+        bar = "🟩" * min(int(abs(c) * 2), 10)
+
+        st.write(f"{color} **{s}**   {c:.2f}%   {bar}")
     
 
 
