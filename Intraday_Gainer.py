@@ -1,6 +1,7 @@
 import yfinance as yf
 import pandas as pd
 
+
 def get_intraday_gainer(sector_df):
 
     results = []
@@ -11,6 +12,7 @@ def get_intraday_gainer(sector_df):
         sector = row["SECTOR"]
 
         try:
+
             # Daily Data
             daily = yf.download(
                 stock + ".NS",
@@ -39,35 +41,40 @@ def get_intraday_gainer(sector_df):
             # Today's High
             today_high = intraday["High"].max()
 
-            # First 5 Minute Candle
+            # First 5 Minute Candle (9:15)
             first_candle = intraday.iloc[0]
-
-            # Last Candle
-            last_candle = intraday.iloc[-1]
-
-            # Previous 5 Candles
-            prev_5 = intraday.iloc[-6:-1]
+            first_high = first_candle["High"]
 
             # Condition 1
             condition1 = today_high > previous_day_high
 
-            # Condition 2
-            condition2 = last_candle["High"] > first_candle["High"]
+            # Check every 5-minute candle after 9:15
+            for i in range(6, len(intraday)):
 
-            # Condition 3
-            condition3 = (
-                last_candle["Volume"] >
-                prev_5["Volume"].max()
-            )
+                candle = intraday.iloc[i]
 
-            if condition1 and condition2 and condition3:
+                # Previous 5 completed candles
+                prev_5 = intraday.iloc[i-5:i]
 
-                results.append({
-                    "Stock": stock,
-                    "Sector": sector,
-                    "LTP": round(last_candle["Close"], 2),
-                    "Signal": "BUY"
-                })
+                # Condition 2
+                condition2 = candle["High"] > first_high
+
+                # Condition 3
+                condition3 = (
+                    candle["Volume"] >
+                    prev_5["Volume"].max()
+                )
+
+                if condition1 and condition2 and condition3:
+
+                    results.append({
+                        "Stock": stock,
+                        "Sector": sector,
+                        "LTP": round(candle["Close"], 2),
+                        "Signal": "BUY"
+                    })
+
+                    break
 
         except:
             pass
