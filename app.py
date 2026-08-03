@@ -60,12 +60,9 @@ for _, row in chart_df.iterrows():
     sector = row["Sector"]
     change = row["Change"]
     with st.expander(f"{sector} ({change:.2f}%)"):
-
-    sector_stocks = sector_df[
-        sector_df["SECTOR"] == sector
-    ]["SYMBOL"].tolist()
-
-    stock_data = []
+        sector_stocks = sector_df[
+        sector_df["SECTOR"] == sector]["SYMBOL"].tolist()
+        stock_data = []
 
     for stock in sector_stocks:
         try:
