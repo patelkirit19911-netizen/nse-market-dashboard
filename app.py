@@ -59,7 +59,7 @@ for _, row in chart_df.iterrows():
 
     sector = row["Sector"]
     change = row["Change"]
-        with st.expander(f"{sector} ({change:.2f}%)"):
+    with st.expander(f"{sector} ({change:.2f}%)"):
 
         sector_stocks = sector_df[
             sector_df["SECTOR"] == sector
@@ -95,9 +95,7 @@ for _, row in chart_df.iterrows():
             st.markdown(
                 f"{color} **{s}** {c:+.2f}% &nbsp;&nbsp; {bar}",
                 unsafe_allow_html=True
-            )
-
-
+        )   
 col3, col4 = st.columns([3,2])
 high_volume = get_high_volume(sector_df["SYMBOL"].tolist())
 
