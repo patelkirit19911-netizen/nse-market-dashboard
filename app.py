@@ -45,68 +45,7 @@ for sector in sector_df["SECTOR"].unique():
 # DASHBOARD V2 - PART 1
 # ===========================
 
-import streamlit.components.v1 as components
 
-st.subheader("📊 Sector Performance (1D)")
-
-selected_sector = None
-chart_df = pd.DataFrame(
-    list(sector_change.items()),
-    columns=["Sector", "Change"]
-)
-
-chart_df = chart_df.sort_values("Change", ascending=False)
-html = """
-<style>
-.row{
-display:flex;
-align-items:center;
-margin:8px 0;
-font-family:Arial;
-}
-.name{
-width:120px;
-font-weight:bold;
-}
-.barbg{
-width:260px;
-height:18px;
-background:#eeeeee;
-border-radius:10px;
-margin:0 10px;
-overflow:hidden;
-}
-.bar{
-height:18px;
-}
-.value{
-width:60px;
-font-weight:bold;
-}
-</style>
-"""
-
-for _, row in chart_df.iterrows():
-    if pd.isna(row["Change"]):
-        continue
-    color = "#0a9d36" if row["Change"] >= 0 else "#d62828"
-
-    width = max(2, min(abs(row["Change"]) * 60, 260))
-    html += f"""
-    <div class="row">
-        <div class="name">{row['Sector']}</div>
-
-        <div class="barbg">
-            <div class="bar"
-                 style="width:{width}px;background:{color};">
-            </div>
-        </div>
-
-        <div class="value">{row['Change']:.2f}%</div>
-    </div>
-    """
-
-components.html(html, height=700, scrolling=True)
 col3, col4 = st.columns([3,2])
 high_volume = get_high_volume(sector_df["SYMBOL"].tolist())
 
