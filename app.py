@@ -6,6 +6,7 @@ from streamlit_plotly_events import plotly_events
 from st_aggrid import AgGrid, GridOptionsBuilder, JsCode
 from orb_scanner import get_orb_scanner
 from five_days_volume import get_high_volume
+from Intraday_Gainer import get_intraday_gainer
 st.set_page_config(page_title="NSE Market Dashboard", layout="wide")
 
 st.title("📊 NSE MARKET DASHBOARD")
@@ -100,10 +101,22 @@ for _, row in chart_df.iterrows():
                 unsafe_allow_html=True
         )   
 col3, col4 = st.columns([3,2])
+intraday_df = get_intraday_gainer(sector_df)
 high_volume = get_high_volume(sector_df["SYMBOL"].tolist())
 
             
 with col3:
+    st.subheader("🚀 Intraday Gainer")
+
+if not intraday_df.empty:
+    st.dataframe(
+        intraday_df,
+        use_container_width=True,
+        hide_index=True
+    )
+else:
+    st.info("No Intraday Gainer")
+    
     st.subheader("🔥 Last 5 Days High Volume")
     if not high_volume.empty:
         st.dataframe(
