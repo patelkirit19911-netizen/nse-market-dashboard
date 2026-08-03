@@ -47,52 +47,67 @@ for sector in sector_df["SECTOR"].unique():
 # ===========================
 
 st.subheader("📊 Sector Performance (1D)")
-
 chart_df = pd.DataFrame(
     list(sector_change.items()),
     columns=["Sector", "Change"]
 ).sort_values("Change", ascending=False)
 
-fig = go.Figure()
+import streamlit.components.v1 as components
 
-colors = [
-    "#16a34a" if x >= 0 else "#dc2626"
-    for x in chart_df["Change"]
-]
+html = """
+<style>
+.row{
+display:flex;
+align-items:center;
+margin:10px 0;
+font-family:Arial,sans-serif;
+}
+.name{
+width:160px;
+font-weight:bold;
+font-size:18px;
+}
+.barbg{
+flex:1;
+height:22px;
+background:#ececec;
+border-radius:12px;
+margin:0 12px;
+overflow:hidden;
+}
+.bar{
+height:22px;
+border-radius:12px;
+}
+.value{
+width:70px;
+text-align:right;
+font-weight:bold;
+font-size:18px;
+}
+</style>
+"""
 
-fig.add_trace(
-    go.Bar(
-        x=chart_df["Change"],
-        y=chart_df["Sector"],
-        orientation="h",
-        marker_color=colors,
-        text=[f"{x:.2f}%" for x in chart_df["Change"]],
-        textposition="outside",
-        hovertemplate="<b>%{y}</b><br>%{x:.2f}%<extra></extra>"
-    )
-)
+for _, row in chart_df.iterrows():
 
-fig.update_layout(
-    height=650,
-    margin=dict(l=10, r=10, t=10, b=10),
-    yaxis=dict(autorange="reversed"),
-    xaxis_title="% Change",
-    showlegend=False
-)
+    color = "#16a34a" if row["Change"] >= 0 else "#dc2626"
+    width = max(2, min(abs(row["Change"]) * 70, 320))
 
-selected = plotly_events(
-    fig,
-    click_event=True,
-    hover_event=False,
-    select_event=False,
-    override_height=650
-)
+    html += f"""
+    <div class="row">
+        <div class="name">{row['Sector']}</div>
 
-selected_sector = None
+        <div class="barbg">
+            <div class="bar"
+            style="width:{width}px;background:{color};"></div>
+        </div>
 
-if selected:
-    selected_sector = chart_df.iloc[selected[0]["pointIndex"]]["Sector"]
-    st.success(f"Selected Sector : {selected_sector}")
+        <div class="value">{row['Change']:.2f}%</div>
+    </div>
+    """
+
+components.html(html, height=650, scrolling=False)
+
 if selected_sector:
 
     st.subheader(f"📈 {selected_sector} Stocks")
