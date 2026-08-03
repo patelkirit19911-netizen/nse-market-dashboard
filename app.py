@@ -64,7 +64,7 @@ for _, row in chart_df.iterrows():
         sector_stocks = sector_df[
             sector_df["SECTOR"] == sector
         ]["SYMBOL"].tolist()
-        st.write(sector_stocks)
+        
         stock_data = []
 
         for stock in sector_stocks:
@@ -89,7 +89,7 @@ for _, row in chart_df.iterrows():
                 
 
         stock_data = sorted(stock_data, key=lambda x: x[1], reverse=True)
-        st.write(stock_data)
+        
         for s, c in stock_data:
 
             color = "🟢" if c >= 0 else "🔴"
