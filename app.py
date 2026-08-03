@@ -82,8 +82,8 @@ for _, row in chart_df.iterrows():
 
                     stock_data.append((stock, chg))
 
-            except:
-                pass
+            except Exception as e:st.write(stock, e)
+                
 
         stock_data = sorted(stock_data, key=lambda x: x[1], reverse=True)
 
