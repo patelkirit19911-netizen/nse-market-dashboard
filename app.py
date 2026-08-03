@@ -73,6 +73,8 @@ for _, row in chart_df.iterrows():
                     period="2d",
                     auto_adjust=True
                 )
+                st.write(stock)
+                st.write(len(data))
 
                 if len(data) >= 2:
                     chg = (
