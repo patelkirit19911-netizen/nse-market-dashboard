@@ -108,15 +108,14 @@ for _, row in chart_df.iterrows():
 
 components.html(html, height=700, scrolling=True)
 col3, col4 = st.columns([3,2])
-high_volume = []
+high_volume = get_high_volume(sector_df["SYMBOL"].tolist())
 
             
 with col3:
     st.subheader("🔥 Last 5 Days High Volume")
-    if high_volume:
-        df = pd.DataFrame(high_volume)
+    if not high_volume.empty:
         st.dataframe(
-            df.style.map(
+            high_volume.style.map(
                 lambda v: "color: green; font-weight: bold;",
                 subset=["Volume Spike"]),use_container_width=True,hide_index=True)
     else:
