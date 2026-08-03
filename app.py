@@ -45,7 +45,62 @@ for sector in sector_df["SECTOR"].unique():
 # DASHBOARD V2 - PART 1
 # ===========================
 
+st.subheader("📊 Sector Performance (1D)")
 
+chart_df = pd.DataFrame(
+    list(sector_change.items()),
+    columns=["Sector", "Change"]
+).sort_values("Change", ascending=False)
+
+for _, row in chart_df.iterrows():
+
+    sector = row["Sector"]
+    change = row["Change"]
+
+    with st.expander(f"{sector}   ({change:.2f}%)"):
+
+        stock_list = sector_df[sector_df["SECTOR"] == sector]["SYMBOL"]
+
+        stock_data = []
+
+        for stock in stock_list:
+            try:
+                data = yf.Ticker(stock + ".NS").history(
+                    period="2d",
+                    interval="1d",
+                    auto_adjust=True
+                )
+
+                if len(data) >= 2:
+
+                    prev = data["Close"].iloc[-2]
+                    last = data["Close"].iloc[-1]
+
+                    pct = ((last-prev)/prev)*100
+
+                    stock_data.append({
+                        "Stock": stock,
+                        "Change": pct
+                    })
+
+            except:
+                pass
+
+        if stock_data:
+
+            stock_df = pd.DataFrame(stock_data)
+            stock_df = stock_df.sort_values(
+                "Change",
+                ascending=False
+            )
+
+            st.dataframe(
+                stock_df.style.format({
+                    "Change":"{:.2f}%"
+                }),
+                hide_index=True,
+                use_container_width=True
+            )
 col3, col4 = st.columns([3,2])
 high_volume = get_high_volume(sector_df["SYMBOL"].tolist())
 
