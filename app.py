@@ -73,8 +73,7 @@ for _, row in chart_df.iterrows():
                     period="5d",
                     auto_adjust=True
                 )
-                st.write(stock)
-                st.write(len(data))
+                
 
                 if len(data) >= 2:
                     chg = (
@@ -85,7 +84,6 @@ for _, row in chart_df.iterrows():
                     stock_data.append((stock, chg))
 
             except Exception as e:
-                st.write(stock, e)
                 
 
         stock_data = sorted(stock_data, key=lambda x: x[1], reverse=True)
