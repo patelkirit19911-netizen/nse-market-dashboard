@@ -52,55 +52,38 @@ chart_df = pd.DataFrame(
     columns=["Sector", "Change"]
 ).sort_values("Change", ascending=False)
 
-for _, row in chart_df.iterrows():
+fig = go.Figure()
 
-    sector = row["Sector"]
-    change = row["Change"]
+colors = [
+    "#16a34a" if x >= 0 else "#dc2626"
+    for x in chart_df["Change"]
+]
 
-    with st.expander(f"{sector}   ({change:.2f}%)"):
+fig.add_trace(
+    go.Bar(
+        x=chart_df["Change"],
+        y=chart_df["Sector"],
+        orientation="h",
+        marker_color=colors,
+        text=[f"{x:.2f}%" for x in chart_df["Change"]],
+        textposition="outside",
+        hovertemplate="<b>%{y}</b><br>%{x:.2f}%<extra></extra>"
+    )
+)
 
-        stock_list = sector_df[sector_df["SECTOR"] == sector]["SYMBOL"]
+fig.update_layout(
+    height=650,
+    margin=dict(l=10, r=10, t=10, b=10),
+    yaxis=dict(autorange="reversed"),
+    xaxis_title="% Change",
+    showlegend=False
+)
 
-        stock_data = []
-
-        for stock in stock_list:
-            try:
-                data = yf.Ticker(stock + ".NS").history(
-                    period="2d",
-                    interval="1d",
-                    auto_adjust=True
-                )
-
-                if len(data) >= 2:
-
-                    prev = data["Close"].iloc[-2]
-                    last = data["Close"].iloc[-1]
-
-                    pct = ((last-prev)/prev)*100
-
-                    stock_data.append({
-                        "Stock": stock,
-                        "Change": pct
-                    })
-
-            except:
-                pass
-
-        if stock_data:
-
-            stock_df = pd.DataFrame(stock_data)
-            stock_df = stock_df.sort_values(
-                "Change",
-                ascending=False
-            )
-
-            st.dataframe(
-                stock_df.style.format({
-                    "Change":"{:.2f}%"
-                }),
-                hide_index=True,
-                use_container_width=True
-            )
+st.plotly_chart(
+    fig,
+    use_container_width=True,
+    key="sector_graph"
+)
 col3, col4 = st.columns([3,2])
 high_volume = get_high_volume(sector_df["SYMBOL"].tolist())
 
