@@ -107,7 +107,7 @@ for _, row in chart_df.iterrows():
 
 components.html(html, height=700, scrolling=True)
 col3, col4 = st.columns([3,2])
-
+high_volume = []
 
             
 with col3:
