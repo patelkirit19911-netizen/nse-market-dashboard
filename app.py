@@ -108,56 +108,7 @@ for _, row in chart_df.iterrows():
 components.html(html, height=700, scrolling=True)
 col3, col4 = st.columns([3,2])
 
-daily_breakout = []
-daily_breakdown = []
-high_volume = []
 
-for stock in sector_df["SYMBOL"]:
-    try:
-        daily = yf.Ticker(stock + ".NS").history(
-            period="6d",
-            interval="1d",
-            auto_adjust=True
-        )
-
-        if len(daily) >= 2:
-            previous_day_high = daily["High"].iloc[-2]
-            today_high = daily["High"].iloc[-1]
-            ltp = daily["Close"].iloc[-1]
-            
-            previous_day_low = daily["Low"].iloc[-2]
-            today_low = daily["Low"].iloc[-1]
-
-            avg_5d_volume = daily["Volume"].mean()
-            today_volume = daily["Volume"].iloc[-1]
-            volume_ratio = today_volume / avg_5d_volume
-
-            if today_high > previous_day_high and ltp > previous_day_high:
-                breakout_pct = round(
-                    ((today_high - previous_day_high) / previous_day_high) * 100,
-                    2
-                )
-
-                daily_breakout.append({
-                    "Stock": stock,
-                    "Prev Day High": round(previous_day_high, 2),
-                    "Today High": round(today_high, 2),
-                    "LTP": round(ltp, 2),
-                    "Breakout %": f"{breakout_pct:.2f}%"
-                })
-            if today_low < previous_day_low and ltp < previous_day_low:
-                breakdown_pct = round(
-                    ((previous_day_low - today_low) / previous_day_low) * 100,
-                    2
-                )
-
-                daily_breakdown.append({
-                    "Stock": stock,
-                    "Prev Day Low": f"{previous_day_low:.2f}",
-                    "Today Low": f"{today_low:.2f}",
-                    "LTP": f"{ltp:.2f}", 
-                    "Breakdown %": f"{breakdown_pct}%"
-                })
             if volume_ratio >= 1.5:
                 high_volume.append({
                     "Stock": stock,
