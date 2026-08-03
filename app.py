@@ -90,7 +90,7 @@ for _, row in chart_df.iterrows():
 
         bar = "🟩" * min(int(abs(c) * 2), 10)
 
-        st.write(f"{color} **{s}**   {c:.2f}%   {bar}")
+        st.markdown(f"{color} **{s}** {c:+.2f}% &nbsp;&nbsp; {bar}", unsafe_allow_html=True)
     
 
 
