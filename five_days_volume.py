@@ -7,15 +7,13 @@ def get_high_volume(stocks):
 
     for stock in stocks:
         try:
-            daily = yf.download(
-                stock + ".NS",
+            daily = yf.Ticker(stock + ".NS").history(
                 period="10d",
                 interval="1d",
-                progress=False
-            )
+                auto_adjust=True)
 
-            if len(daily) < 6:
-                continue
+            if daily.empty or len(daily) < 6:
+                    continue
 
             avg_5d_volume = daily["Volume"].iloc[-6:-1].mean()
             today_volume = daily["Volume"].iloc[-1]
