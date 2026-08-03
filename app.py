@@ -115,7 +115,7 @@ high_volume = []
 for stock in sector_df["SYMBOL"]:
     try:
         daily = yf.Ticker(stock + ".NS").history(
-            period="5d",
+            period="6d",
             interval="1d",
             auto_adjust=True
         )
@@ -158,7 +158,7 @@ for stock in sector_df["SYMBOL"]:
                     "LTP": f"{ltp:.2f}", 
                     "Breakdown %": f"{breakdown_pct}%"
                 })
-            if volume_ratio >= 2:
+            if volume_ratio >= 1.5:
                 high_volume.append({
                     "Stock": stock,
                     "Avg 5D Volume": int(avg_5d_volume),
