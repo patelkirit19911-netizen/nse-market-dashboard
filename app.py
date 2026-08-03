@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 import yfinance as yf
 import plotly.graph_objects as go
+from streamlit_plotly_events import plotly_events
 from st_aggrid import AgGrid, GridOptionsBuilder, JsCode
 from orb_scanner import get_orb_scanner
 from five_days_volume import get_high_volume
