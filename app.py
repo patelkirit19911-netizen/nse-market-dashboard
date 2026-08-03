@@ -109,17 +109,7 @@ components.html(html, height=700, scrolling=True)
 col3, col4 = st.columns([3,2])
 
 
-            if volume_ratio >= 1.5:
-                high_volume.append({
-                    "Stock": stock,
-                    "Avg 5D Volume": int(avg_5d_volume),
-                    "Today Volume": int(today_volume),
-                    "Volume Spike": f"{round(volume_ratio, 2)}x"
-                })
-
-    except Exception:
-        pass
-
+            
 with col3:
 
 st.subheader("🔥 Last 5 Days High Volume")
