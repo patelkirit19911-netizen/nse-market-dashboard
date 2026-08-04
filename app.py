@@ -29,7 +29,8 @@ for sector in sector_df["SECTOR"].unique():
                 interval="1d",
                 auto_adjust=True
             )
-
+            import time
+            time.sleep(0.3)
             if len(data) >= 2:
                 prev_close = data["Close"].iloc[-2]
                 last_close = data["Close"].iloc[-1]
