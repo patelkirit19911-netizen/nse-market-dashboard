@@ -55,7 +55,7 @@ chart_df = pd.DataFrame(
     list(sector_change.items()),
     columns=["Sector", "Change"]
 ).sort_values("Change", ascending=False)
-
+st.write(chart_df)
 for _, row in chart_df.iterrows():
 
     sector = row["Sector"]
