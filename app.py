@@ -16,38 +16,51 @@ sector_df = pd.read_csv("sector_mapping.csv")
 
 strength = {}
 sector_change = {}
-for sector in sector_df["SECTOR"].unique():
 
-    stocks = sector_df[sector_df["SECTOR"] == sector]["SYMBOL"]
+symbols = [s + ".NS" for s in sector_df["SYMBOL"].unique()]
 
-    changes = []
+try:
+    data = yf.download(
+        tickers=symbols,
+        period="2d",
+        interval="1d",
+        group_by="ticker",
+        auto_adjust=True,
+        progress=False,
+        threads=False
+    )
 
-    for stock in stocks:
-        try:
-            data = yf.Ticker(stock + ".NS").history(
-                period="2d",
-                interval="1d",
-                auto_adjust=True
+    for sector in sector_df["SECTOR"].unique():
+
+        stocks = sector_df[sector_df["SECTOR"] == sector]["SYMBOL"]
+
+        changes = []
+
+        for stock in stocks:
+            try:
+                df = data[stock + ".NS"]
+
+                if len(df) >= 2:
+                    prev_close = df["Close"].iloc[-2]
+                    last_close = df["Close"].iloc[-1]
+
+                    change = (
+                        (last_close - prev_close)
+                        / prev_close
+                    ) * 100
+
+                    changes.append(change)
+
+            except:
+                pass
+
+        if changes:
+            sector_change[sector] = round(
+                sum(changes) / len(changes), 2
             )
-            
-            if len(data) >= 2:
-                prev_close = data["Close"].iloc[-2]
-                last_close = data["Close"].iloc[-1]
 
-                change = ((last_close - prev_close) / prev_close) * 100
-                changes.append(change)
-
-        except:
-            pass
-            
-    if changes:
-        sector_change[sector] = round(sum(changes) / len(changes), 2)
-    
-# ===========================
-# DASHBOARD V2 - PART 1
-# ===========================
-
-import streamlit.components.v1 as components
+except:
+    sector_change = {}
 
 st.subheader("📊 Sector Performance (1D)")
 
@@ -55,6 +68,7 @@ chart_df = pd.DataFrame(
     list(sector_change.items()),
     columns=["Sector", "Change"]
 ).sort_values("Change", ascending=False)
+
 
 for _, row in chart_df.iterrows():
 
