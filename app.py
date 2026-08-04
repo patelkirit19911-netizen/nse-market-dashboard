@@ -50,8 +50,8 @@ try:
 
                     changes.append(change)
 
-            except:
-                pass
+            except Exception as e:
+                st.write(stock, e)
 
         if changes:
             sector_change[sector] = round(
