@@ -29,7 +29,7 @@ try:
         threads=False,
         group_by="column"
     )
-    st.write(data.columns)
+    
     for sector in sector_df["SECTOR"].unique():
 
         stocks = sector_df[sector_df["SECTOR"] == sector]["SYMBOL"]
@@ -38,7 +38,7 @@ try:
 
         for stock in stocks:
             try:
-                df = data[stock + ".NS"]
+                df = data.xs(stock + ".NS", axis=1, level=1)
 
                 if len(df) >= 2:
                     prev_close = df["Close"].iloc[-2]
