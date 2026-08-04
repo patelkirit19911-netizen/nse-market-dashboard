@@ -74,51 +74,45 @@ for _, row in chart_df.iterrows():
 
     sector = row["Sector"]
     change = row["Change"]
-    with st.expander(f"{sector} ({change:.2f}%)"):
+
+    with st.expander(f"{sector} ({change:+.2f}%)"):
 
         sector_stocks = sector_df[
             sector_df["SECTOR"] == sector
         ]["SYMBOL"].tolist()
-        
+
         stock_data = []
 
         for stock in sector_stocks:
             try:
-                data = yf.Ticker(stock + ".NS").history(
-                    period="5d",
-                    auto_adjust=True
-                )
-                
+                df = data[stock + ".NS"]
 
-                if len(data) >= 2:
+                if len(df) >= 2:
                     chg = (
-                        (data["Close"].iloc[-1] - data["Close"].iloc[-2])
-                        / data["Close"].iloc[-2]
+                        (df["Close"].iloc[-1] - df["Close"].iloc[-2])
+                        / df["Close"].iloc[-2]
                     ) * 100
 
                     stock_data.append((stock, chg))
 
-            except Exception as e:
+            except:
                 pass
-        stock_data = sorted(stock_data, key=lambda x: x[1], reverse=True)
-        
+
+        stock_data.sort(key=lambda x: x[1], reverse=True)
+
         for s, c in stock_data:
 
-            try:
-                c = float(c)
-                if c >= 0:
-                    color = "🟢"
-                    bar = "🟩" * min(int(abs(c) * 2), 10)
-                else:
-                    color = "🔴"
-                    bar = "🟥" * min(int(abs(c) * 2), 10)
-            except:
-                color = "⚪"
-                bar = ""
+            if c >= 0:
+                color = "🟢"
+                bar = "🟩" * min(int(abs(c) * 2), 10)
+            else:
+                color = "🔴"
+                bar = "🟥" * min(int(abs(c) * 2), 10)
+
             st.markdown(
                 f"{color} **{s}** {c:+.2f}% &nbsp;&nbsp; {bar}",
                 unsafe_allow_html=True
-        )   
+            )
 col3, col4 = st.columns([3,2])
 intraday_df = get_intraday_gainer(sector_df)
 high_volume = get_high_volume(sector_df["SYMBOL"].tolist())
