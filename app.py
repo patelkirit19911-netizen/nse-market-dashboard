@@ -13,7 +13,7 @@ st.title("📊 NSE MARKET DASHBOARD")
 
 # Sector mapping
 sector_df = pd.read_csv("sector_mapping.csv")
-
+st.write(sector_df.head())
 strength = {}
 sector_change = {}
 for sector in sector_df["SECTOR"].unique():
@@ -37,12 +37,11 @@ for sector in sector_df["SECTOR"].unique():
                 change = ((last_close - prev_close) / prev_close) * 100
                 changes.append(change)
 
-        except:
-            pass
-
+        except Exception as e:
+            st.write(stock, e)
     if changes:
         sector_change[sector] = round(sum(changes) / len(changes), 2)
-
+    st.write(sector_change)
 # ===========================
 # DASHBOARD V2 - PART 1
 # ===========================
