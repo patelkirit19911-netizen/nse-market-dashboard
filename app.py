@@ -27,7 +27,7 @@ try:
         group_by="ticker",
         auto_adjust=True,
         progress=False,
-        threads=False
+        threads=False,
         group_by="column"
     )
     st.write(data.columns)
