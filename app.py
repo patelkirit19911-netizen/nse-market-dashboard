@@ -37,7 +37,8 @@ for sector in sector_df["SECTOR"].unique():
                 change = ((last_close - prev_close) / prev_close) * 100
                 changes.append(change)
 
-        except Exception as e:
+        except:
+            pass
             
     if changes:
         sector_change[sector] = round(sum(changes) / len(changes), 2)
