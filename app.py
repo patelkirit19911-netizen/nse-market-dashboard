@@ -24,7 +24,6 @@ try:
         tickers=symbols,
         period="2d",
         interval="1d",
-        group_by="ticker",
         auto_adjust=True,
         progress=False,
         threads=False,
