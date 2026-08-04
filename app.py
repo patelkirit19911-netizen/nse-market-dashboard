@@ -28,8 +28,9 @@ try:
         auto_adjust=True,
         progress=False,
         threads=False
+        group_by='column'
     )
-
+    st.write(data.columns)
     for sector in sector_df["SECTOR"].unique():
 
         stocks = sector_df[sector_df["SECTOR"] == sector]["SYMBOL"]
