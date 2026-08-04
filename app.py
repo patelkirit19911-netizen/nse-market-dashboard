@@ -157,7 +157,7 @@ for stock in sector_df["SYMBOL"]:
 
             # Current week candle
             daily = yf.Ticker(stock + ".NS").history(
-            period="10d",
+            period="6d",
             interval="1d",
             auto_adjust=True
             )
@@ -174,6 +174,7 @@ for stock in sector_df["SYMBOL"]:
 
                 weekly_breakout.append({
                     "Stock": stock,
+                    "Sector": sector,
                     "Prev Week High": round(previous_week_high, 2),
                     "Today High": round(today_high, 2),
                     "LTP": round(ltp, 2),
