@@ -13,7 +13,7 @@ st.title("📊 NSE MARKET DASHBOARD")
 
 # Sector mapping
 sector_df = pd.read_csv("sector_mapping.csv")
-st.write(sector_df.head())
+
 strength = {}
 sector_change = {}
 for sector in sector_df["SECTOR"].unique():
@@ -29,8 +29,7 @@ for sector in sector_df["SECTOR"].unique():
                 interval="1d",
                 auto_adjust=True
             )
-            import time
-            time.sleep(0.3)
+            
             if len(data) >= 2:
                 prev_close = data["Close"].iloc[-2]
                 last_close = data["Close"].iloc[-1]
@@ -39,10 +38,10 @@ for sector in sector_df["SECTOR"].unique():
                 changes.append(change)
 
         except Exception as e:
-            st.write(stock, e)
+            
     if changes:
         sector_change[sector] = round(sum(changes) / len(changes), 2)
-    st.write(sector_change)
+    
 # ===========================
 # DASHBOARD V2 - PART 1
 # ===========================
@@ -55,7 +54,7 @@ chart_df = pd.DataFrame(
     list(sector_change.items()),
     columns=["Sector", "Change"]
 ).sort_values("Change", ascending=False)
-st.write(chart_df)
+
 for _, row in chart_df.iterrows():
 
     sector = row["Sector"]
