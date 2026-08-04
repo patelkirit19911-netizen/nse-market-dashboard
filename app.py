@@ -39,7 +39,6 @@ try:
         for stock in stocks:
             try:
                 df = data.xs(stock + ".NS", axis=1, level=1)
-
                 if len(df) >= 2:
                     prev_close = df["Close"].iloc[-2]
                     last_close = df["Close"].iloc[-1]
