@@ -63,7 +63,7 @@ except:
 
 
 high_volume = get_high_volume(sector_df["SYMBOL"].tolist())
-
+intraday_df = get_intraday_gainer(sector_df)
 col3, col4 = st.columns([3,2])           
 with col3:
     st.subheader("🚀 Intraday Gainer")
