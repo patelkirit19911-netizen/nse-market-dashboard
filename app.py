@@ -6,7 +6,7 @@ from streamlit_plotly_events import plotly_events
 from st_aggrid import AgGrid, GridOptionsBuilder, JsCode
 from orb_scanner import get_orb_scanner
 from five_days_volume import get_high_volume
-from Intraday_Gainer import get_intraday_gainer
+from intraday_scanner import scanner_df
 st.set_page_config(page_title="NSE Market Dashboard", layout="wide")
 
 st.title("📊 NSE MARKET DASHBOARD")
