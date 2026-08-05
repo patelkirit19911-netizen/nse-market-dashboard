@@ -62,7 +62,17 @@ for stock in stocks:
         open_low = abs(open_price - low_price) <= 0.01
         open_prev = abs(open_price - prev_close) <= 0.01
 
-        if open_low or open_prev:
+        if open_low:
+    signal = "🟢 BUY"
+
+elif open_prev:
+    if last_price >= open_price:
+        signal = "🟢 BUY"
+    else:
+        signal = "🔴 SELL"
+
+else:
+    continue
 
             symbol = stock.replace(".NS","")
 
