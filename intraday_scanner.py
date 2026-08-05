@@ -56,22 +56,16 @@ for stock in stocks:
 
         open_price = float(today["Open"])
         low_price = float(today["Low"])
+        high_price = float(today["High"])
         last_price = float(today["Close"])
         prev_close = float(yesterday["Close"])
 
-        open_low = abs(open_price - low_price) <= 0.01
-        open_prev = abs(open_price - prev_close) <= 0.01
-
         if open_low:
             signal = "🟢 BUY"
-        elif open_prev:
-            if last_price >= open_price:
-                signal = "🟢 BUY"
-            else:
-                signal = "🔴 SELL"
-            else:
-                continue
-
+        elif open_high:
+            signal = "🔴 SELL"
+        else:
+            continue
 symbol = stock.replace(".NS", "")
 
 scanner.append({
@@ -79,6 +73,7 @@ scanner.append({
     "Sector": sector_dict.get(symbol, "Unknown"),
     "Open": round(open_price, 2),
     "Low": round(low_price, 2),
+    "High": round(high_price, 2),
     "Last Price": round(last_price, 2),
     "% Change": round(((last_price - prev_close) / prev_close) * 100, 2),
     "Signal": signal
@@ -102,6 +97,7 @@ scanner_df = scanner_df[
         "Sector",
         "Open",
         "Low",
+        "High",
         "Last Price",
         "% Change",
         "Signal"
