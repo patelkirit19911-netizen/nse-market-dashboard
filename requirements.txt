@@ -1,6 +1,6 @@
-streamlit
+streamlit==1.40.2
 pandas
 plotly
 yfinance
-streamlit-aggrid==1.1.7
-streamlit-plotly-events
+streamlit-aggrid==1.0.5
+streamlit-plotly-events==0.0.6
