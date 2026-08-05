@@ -63,28 +63,25 @@ except:
 
 
 high_volume = get_high_volume(sector_df["SYMBOL"].tolist())
-intraday_df = get_intraday_gainer(sector_df)
-col3, col4 = st.columns([3,2])           
-with col3:
-    st.subheader("🚀 Intraday Gainer")
+st.subheader("📈 Intraday Scanner")
 
-if not intraday_df.empty:
+if not scanner_df.empty:
     st.dataframe(
-        intraday_df,
+        scanner_df,
         use_container_width=True,
         hide_index=True
     )
 else:
-    st.info("No Intraday Gainer")
-    
-    st.subheader("🔥 Last 5 Days High Volume")
-    if not high_volume.empty:
-        st.dataframe(
-            high_volume.style.map(
-                lambda v: "color: green; font-weight: bold;",
-                subset=["Volume Spike"]),use_container_width=True,hide_index=True)
-    else:
-        st.info("No High Volume Stocks Today")
+    st.info("No Intraday Scanner Stock Found")
+
+st.subheader("🔥 Last 5 Days High Volume")
+if not high_volume.empty:
+    st.dataframe(
+        high_volume.style.map(
+            lambda v: "color: green; font-weight: bold;",
+            subset=["Volume Spike"]),use_container_width=True,hide_index=True)
+else:
+    st.info("No High Volume Stocks Today")
 
 st.subheader("📈 Weekly Breakout")
 weekly_breakout = []
