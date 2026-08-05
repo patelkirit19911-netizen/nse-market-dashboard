@@ -59,25 +59,26 @@ for stock in stocks:
         high_price = float(today["High"])
         last_price = float(today["Close"])
         prev_close = float(yesterday["Close"])
-
+        open_low = abs(open_price - low_price) <= 0.01
+        open_high = abs(open_price - high_price) <= 0.01
         if open_low:
             signal = "🟢 BUY"
         elif open_high:
             signal = "🔴 SELL"
         else:
             continue
-symbol = stock.replace(".NS", "")
+    symbol = stock.replace(".NS", "")
 
-scanner.append({
-    "Symbol": symbol,
-    "Sector": sector_dict.get(symbol, "Unknown"),
-    "Open": round(open_price, 2),
-    "Low": round(low_price, 2),
-    "High": round(high_price, 2),
-    "Last Price": round(last_price, 2),
-    "% Change": round(((last_price - prev_close) / prev_close) * 100, 2),
-    "Signal": signal
-})
+    scanner.append({
+        "Symbol": symbol,
+        "Sector": sector_dict.get(symbol, "Unknown"),
+        "Open": round(open_price, 2),
+        "Low": round(low_price, 2),
+        "High": round(high_price, 2),
+        "Last Price": round(last_price, 2),
+        "% Change": round(((last_price - prev_close) / prev_close) * 100, 2),
+        "Signal": signal
+    })
 
     except:
         pass
