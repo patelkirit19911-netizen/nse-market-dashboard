@@ -116,3 +116,13 @@ else:
         use_container_width=True,
         hide_index=True
     )
+st.subheader("📈 Intraday Scanner")
+
+if scanner_df.empty:
+    st.warning("No Intraday Scanner Stock Found")
+else:
+    st.dataframe(
+        scanner_df,
+        use_container_width=True,
+        hide_index=True
+    )
