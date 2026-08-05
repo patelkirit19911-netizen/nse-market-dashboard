@@ -87,3 +87,32 @@ if scanner_df.empty:
     st.info("No Intraday Scanner Stock Found")
 else:
     st.dataframe(scanner_df, use_container_width=True, hide_index=True)
+# Column Order
+scanner_df = scanner_df[
+    [
+        "Symbol",
+        "Sector",
+        "Open",
+        "Low",
+        "Last Price",
+        "% Change",
+        "Buy"
+    ]
+]
+
+st.subheader("📈 Intraday Scanner")
+
+if scanner_df.empty:
+    st.warning("No Intraday Scanner Stock Found")
+else:
+    def color_buy(val):
+        if val == "✅ BUY":
+            return "color:green;font-weight:bold;"
+        return ""
+
+    st.dataframe(
+        scanner_df.style
+        .applymap(color_buy, subset=["Buy"]),
+        use_container_width=True,
+        hide_index=True
+    )
