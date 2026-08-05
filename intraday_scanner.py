@@ -104,7 +104,7 @@ scanner_df = scanner_df[
         "Low",
         "Last Price",
         "% Change",
-        "signal"
+        "Signal"
     ]
 ]
 
@@ -119,13 +119,14 @@ else:
     elif "SELL" in val:
         return "color: red; font-weight: bold;"
     return ""
-st.subheader("📈 Intraday Scanner")
-.applymap(color_buy, subset=["Buy"])
+st.dataframe(
+    scanner_df.style.applymap(
+        color_signal,
+        subset=["Signal"]
+    ),
+    use_container_width=True,
+    hide_index=True
+)
 if scanner_df.empty:
     st.warning("No Intraday Scanner Stock Found")
-else:
-    st.dataframe(
-        scanner_df,
-        use_container_width=True,
-        hide_index=True
-    )
+    
