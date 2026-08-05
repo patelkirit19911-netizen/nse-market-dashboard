@@ -63,28 +63,26 @@ for stock in stocks:
         open_prev = abs(open_price - prev_close) <= 0.01
 
         if open_low:
-    signal = "🟢 BUY"
+            signal = "🟢 BUY"
+        elif open_prev:
+            if last_price >= open_price:
+                signal = "🟢 BUY"
+            else:
+                signal = "🔴 SELL"
+            else:
+                continue
 
-elif open_prev:
-    if last_price >= open_price:
-        signal = "🟢 BUY"
-    else:
-        signal = "🔴 SELL"
+symbol = stock.replace(".NS", "")
 
-else:
-    continue
-
-            symbol = stock.replace(".NS","")
-
-            scanner.append({
-                "Symbol": symbol,
-                "Sector": sector_dict.get(symbol,"Unknown"),
-                "Open": round(open_price,2),
-                "Low": round(low_price,2),
-                "Last Price": round(last_price,2),
-                "% Change": round(((last_price-prev_close)/prev_close)*100,2),
-                "Buy": "✅ BUY"
-            })
+scanner.append({
+    "Symbol": symbol,
+    "Sector": sector_dict.get(symbol, "Unknown"),
+    "Open": round(open_price, 2),
+    "Low": round(low_price, 2),
+    "Last Price": round(last_price, 2),
+    "% Change": round(((last_price - prev_close) / prev_close) * 100, 2),
+    "Signal": signal
+})
 
     except:
         pass
@@ -106,7 +104,7 @@ scanner_df = scanner_df[
         "Low",
         "Last Price",
         "% Change",
-        "Buy"
+        "signal"
     ]
 ]
 
@@ -115,17 +113,12 @@ st.subheader("📈 Intraday Scanner")
 if scanner_df.empty:
     st.warning("No Intraday Scanner Stock Found")
 else:
-    def color_buy(val):
-        if val == "✅ BUY":
-            return "color:green;font-weight:bold;"
-        return ""
-
-    st.dataframe(
-        scanner_df.style
-        .applymap(color_buy, subset=["Buy"]),
-        use_container_width=True,
-        hide_index=True
-    )
+    def color_signal(val):
+    if "BUY" in val:
+        return "color: green; font-weight: bold;"
+    elif "SELL" in val:
+        return "color: red; font-weight: bold;"
+    return ""
 st.subheader("📈 Intraday Scanner")
 
 if scanner_df.empty:
