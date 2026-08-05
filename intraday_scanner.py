@@ -120,7 +120,7 @@ else:
         return "color: red; font-weight: bold;"
     return ""
 st.subheader("📈 Intraday Scanner")
-
+.applymap(color_buy, subset=["Buy"])
 if scanner_df.empty:
     st.warning("No Intraday Scanner Stock Found")
 else:
