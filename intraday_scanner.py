@@ -62,33 +62,21 @@ for stock in stocks:
             signal = "🔴 SELL"
         else:
             continue
-    symbol = stock.replace(".NS", "")
-
-    scanner.append({
-        "Symbol": symbol,
-        "Sector": sector_dict.get(symbol, "Unknown"),
-        "Open": round(open_price, 2),
-        "Low": round(low_price, 2),
-        "High": round(high_price, 2),
-        "Last Price": round(last_price, 2),
-        "% Change": round(((last_price - prev_close) / prev_close) * 100, 2),
-        "Signal": signal
-    })
-
-    except:
+        symbol = stock.replace(".NS", "")
+        
+        scanner.append({
+            "Symbol": symbol,
+            "Sector": sector_dict.get(symbol, "Unknown"),
+            "Open": round(open_price, 2),
+            "Low": round(low_price, 2),
+            "High": round(high_price, 2),
+            "Last Price": round(last_price, 2),
+            "% Change": round(((last_price - prev_close) / prev_close) * 100, 2),
+            "Signal": signal
+        })
+    except Exception:
         pass
 
 scanner_df = pd.DataFrame(scanner)
 
 
-st.dataframe(
-    scanner_df.style.applymap(
-        color_signal,
-        subset=["Signal"]
-    ),
-    use_container_width=True,
-    hide_index=True
-)
-if scanner_df.empty:
-    st.warning("No Intraday Scanner Stock Found")
-    
