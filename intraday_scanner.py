@@ -2,12 +2,7 @@ import streamlit as st
 import pandas as pd
 import yfinance as yf
 
-st.set_page_config(
-    page_title="Intraday Scanner",
-    layout="wide"
-)
 
-st.title("📈 Nifty 100 Intraday Scanner")
 
 # Load Sector Mapping
 sector_df = pd.read_csv("sector_mapping.csv")
@@ -85,37 +80,7 @@ for stock in stocks:
 
 scanner_df = pd.DataFrame(scanner)
 
-st.subheader("📈 Intraday Scanner")
 
-if scanner_df.empty:
-    st.info("No Intraday Scanner Stock Found")
-else:
-    st.dataframe(scanner_df, use_container_width=True, hide_index=True)
-# Column Order
-scanner_df = scanner_df[
-    [
-        "Symbol",
-        "Sector",
-        "Open",
-        "Low",
-        "High",
-        "Last Price",
-        "% Change",
-        "Signal"
-    ]
-]
-
-st.subheader("📈 Intraday Scanner")
-
-if scanner_df.empty:
-    st.warning("No Intraday Scanner Stock Found")
-else:
-    def color_signal(val):
-    if "BUY" in val:
-        return "color: green; font-weight: bold;"
-    elif "SELL" in val:
-        return "color: red; font-weight: bold;"
-    return ""
 st.dataframe(
     scanner_df.style.applymap(
         color_signal,
